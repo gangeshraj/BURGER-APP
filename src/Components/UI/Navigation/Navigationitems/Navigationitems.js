@@ -6,7 +6,7 @@ const navigationitems =(props)=>(
     <ul className={Classes.Navigationitems}>
         <Navigationitem link="/" active>{/*see how active={true} is written in like active */}
             Burger Builder
-        </Navigationitem>
+        </Navigationitem >
         <Navigationitem link="/">
             Check out
         </Navigationitem>

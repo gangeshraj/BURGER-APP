@@ -31,7 +31,7 @@ class Layout extends Component{
             <Auxillary>
                 <Toolbar/>
                 <Sidedrawer 
-                    open={this.state.sidedrawervisible} 
+                    showstatus={this.state.sidedrawervisible} 
                     closed={this.sideDrawerClosedHandler}/>
                 <div>toolbar ,sidebarsssss , backdrop</div>
                 <main className={Classes.Content}>

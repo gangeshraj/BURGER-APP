@@ -8,7 +8,7 @@ class Modal extends Component{
     shouldComponentUpdate(nextProps,prevState){//if this modal is shown han only we need 
         //to update it and obviously child component of modal orderSummary component 
         //therefore it enhances performance
-        return nextProp.show!==this.props.show;
+        return nextProps.show!==this.props.show;
     }
     
     render(){

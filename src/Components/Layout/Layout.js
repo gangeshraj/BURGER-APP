@@ -9,17 +9,27 @@ class Layout extends Component{
     constructor(props){
         super(props);
         this.state={
-            sidedrawervisible:true
+            sidedrawervisible:false
         }
         console.log("in constructor",this.props);
     }
 
     sideDrawerClosedHandler=()=>{
-
         this.setState((prevstate,props)=>{
             //console.log("props",this.props===props);
             return {
                 sidedrawervisible:false
+            }
+        })
+    }
+
+
+    MenuOnToolbarTogglingSideBar=()=>{
+
+        this.setState((prevstate,props)=>{
+            //console.log("props",this.props===props);
+            return {
+                sidedrawervisible:!prevstate.sidedrawervisible
             }
         })
 
@@ -29,7 +39,7 @@ class Layout extends Component{
 
         return(
             <Auxillary>
-                <Toolbar/>
+                <Toolbar toggleClickHandler={this.MenuOnToolbarTogglingSideBar}/>
                 <Sidedrawer 
                     showstatus={this.state.sidedrawervisible} 
                     closed={this.sideDrawerClosedHandler}/>

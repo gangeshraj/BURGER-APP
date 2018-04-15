@@ -9,7 +9,8 @@ const Burger=(props)=>{//renders burger
             //here props.ingredients[ingkey] is the numerical value of that ingredient
             //spread operator makes that much big array which is populated
             //by map function so map returns array of burgeringredient component of that uch numbers
-            return [...Array(props.ingredients[ingkey])].map((_,index)=>{
+            return [...Array(props.ingredients[ingkey])].map((_,index)=>{//here we are not interested
+                //in element passed so we use _ we are interested in index only
                return  <BurgerIngredient key={ingkey+index} type={ingkey}/>
                 })
             //reduce makes these separate array[array(ingredientsvalue)] into a single array having 

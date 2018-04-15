@@ -7,6 +7,7 @@ import OrderSummary from '../../Components/Burger/OrderSummary/OrderSummary';
 import axios_instance_for_orders from '../../axios_instance_for_orders';//use instance of 
 //axios for sending http request to our fire base server
 import Spinner from '../../Components/UI/Spinner/Spinner';
+import WithErrorHandler from '../../higherordercomponent/WithErrorHandler';
 
 //global pricing of burger ingredients
 const INGREDINT_PRICE={
@@ -168,4 +169,8 @@ class BurgerBuilder extends Component{
     }
 }
 
-export default BurgerBuilder;
+
+// wrapped in high order component so as to show error using modal component
+// this is very optimal way now we can use any component which uses axios to 
+// have high order component WithErrorHandler wrappping it
+export default WithErrorHandler(BurgerBuilder,axios_instance_for_orders);

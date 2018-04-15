@@ -10,15 +10,12 @@ const Burger=(props)=>{//renders burger
             //spread operator makes that much big array which is populated
             //by map function so map returns array of burgeringredient component of that uch numbers
             return [...Array(props.ingredients[ingkey])].map((_,index)=>{
-              console.log("here ok")
                return  <BurgerIngredient key={ingkey+index} type={ingkey}/>
                 })
             //reduce makes these separate array[array(ingredientsvalue)] into a single array having 
             //these components
             }).reduce((arr,el)=>{//reduce returns finally arr
-                console.log("arr initially",arr);
-                console.log("el received each time from map",el);
-                return arr.concat(el);//el is each burger ingredient
+                return arr.concat(el);//el is each burger ingredient type array received from above
             },[]);//initial value of arr
 
     

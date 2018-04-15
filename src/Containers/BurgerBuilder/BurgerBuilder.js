@@ -4,6 +4,8 @@ import Burger from '../../Components/Burger/Burger'
 import BuildControls from '../../Components/Burger/BuildControls/BuildControls';
 import Modal from '../../Components/UI/Modal/Modal';
 import OrderSummary from '../../Components/Burger/OrderSummary/OrderSummary';
+import axios_instance_for_orders from '../../axios_instance_for_orders';//use instance of 
+//axios for sending http request to our fire base server
 
 //global pricing of burger ingredients
 const INGREDINT_PRICE={
@@ -84,8 +86,25 @@ class BurgerBuilder extends Component{
         this.setState({purchasing:false});
     }
 
-    purchaseContinueHandler=()=>{
-        alert("Continue shopping");
+    purchaseContinueHandler=()=>{//method invoked on continue button clicked on modal box
+        //alert("Continue shopping");
+        const order={//populating dummy data for sending
+            ingredient:this.state.ingredients,
+            price:this.state.total_price,
+            customer:{
+                name:"gangesh",
+                address:{
+                    street:"st zavier palce",
+                    zipcode:"765432",
+                    country:"India"
+                },
+                email:"gangeshraj1@gmail.com",
+            },
+            deliveryMethod:"fastest"
+        }
+        axios_instance_for_orders.post('/orders.json',order)//url appended to our base url received in axios
+        .then(response=>console.log(response))
+        .catch(error=>console.log(error))
     }
     
     render(){

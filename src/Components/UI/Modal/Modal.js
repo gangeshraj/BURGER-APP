@@ -8,7 +8,13 @@ class Modal extends Component{
     shouldComponentUpdate(nextProps,prevState){//if this modal is shown han only we need 
         //to update it and obviously child component of modal orderSummary component 
         //therefore it enhances performance
-        return nextProps.show!==this.props.show;
+        //nextProps.show!==this.props.show
+
+        //** WE ARE ADDING ONE MORE CONDITION **/
+        //nextProps.children !== this.props.children as if it is not written 
+        //we won'tbe able to see spinner in modal because it is children component of modal 
+
+        return nextProps.show!==this.props.show||nextProps.children!==this.props.children;
     }
     
     render(){

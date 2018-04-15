@@ -6,6 +6,7 @@ import Modal from '../../Components/UI/Modal/Modal';
 import OrderSummary from '../../Components/Burger/OrderSummary/OrderSummary';
 import axios_instance_for_orders from '../../axios_instance_for_orders';//use instance of 
 //axios for sending http request to our fire base server
+import Spinner from '../../Components/UI/Spinner/Spinner';
 
 //global pricing of burger ingredients
 const INGREDINT_PRICE={
@@ -30,7 +31,10 @@ class BurgerBuilder extends Component{
         total_price:4,//base price which is always 4 without any ingredients 
         //and it have theprice of the whole burger
         purchasable:false,//if added atleast one ngredient make it true else false
-        purchasing:false //when modal box opens it ismade true as now you are proceeding for purchase
+        purchasing:false, //when modal box opens it ismade true as now you are proceeding for purchase,
+        loading:false //if false not show spinners else show spinners 
+        //it happens when we click on continue button on modal box 
+        //and data is sent to firebase server but response is not received
                }
     }
 
@@ -88,6 +92,11 @@ class BurgerBuilder extends Component{
 
     purchaseContinueHandler=()=>{//method invoked on continue button clicked on modal box
         //alert("Continue shopping");
+        this.setState((previousState,props)=>{
+            return {
+                loading:true//loading is false here so negated to true
+            }
+        })
         const order={//populating dummy data for sending
             ingredient:this.state.ingredients,
             price:this.state.total_price,
@@ -103,8 +112,18 @@ class BurgerBuilder extends Component{
             deliveryMethod:"fastest"
         }
         axios_instance_for_orders.post('/orders.json',order)//url appended to our base url received in axios
-        .then(response=>console.log(response))
-        .catch(error=>console.log(error))
+        .then(response=>this.setState((previousState,props)=>{
+            return {
+                loading:false,//loading is true from above so negated to false again,
+                purchasing:false//to close the modal
+            }
+        }))
+        .catch(error=>this.setState((previousState,props)=>{
+            return {
+                loading:false,//loading is true from above so negated to false again
+                purchasing:false//to close the modal
+            }
+        }))
     }
     
     render(){
@@ -117,18 +136,22 @@ class BurgerBuilder extends Component{
             disabledInfo[key]=disabledInfo[key]<=0;
         }
 
+        let orderSummary=<OrderSummary 
+                        // it has details inmodal in order summary component
+                        ingredients={this.state.ingredients}
+                        purchaseContinue={this.purchaseContinueHandler}
+                        purchaseCancel={this.closeModal}
+                        price={this.state.total_price}
+                        />;
+
+        if(this.state.loading)//if order is sent means we are loading show spinner
+            orderSummary=<Spinner/>;//else above will be shown
 
         return  <Auxillary>
                 {/* above high order component */}
                 {/* below modal box component show when user is purchasing */}
                 <Modal show={this.state.purchasing} closeModal={this.closeModal}>
-                    <OrderSummary 
-                    // it has details inmodal in order summary component
-                    ingredients={this.state.ingredients}
-                    purchaseContinue={this.purchaseContinueHandler}
-                    purchaseCancel={this.closeModal}
-                    price={this.state.total_price}
-                    />
+                    {orderSummary}
                 </Modal>
                 {/* below burger componen render burger on screen */}
                 <Burger  ingredients={this.state.ingredients}/>

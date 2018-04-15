@@ -3,13 +3,13 @@
     padding:0;
     list-style:none;/*to make the default list style void*/
     align-items:center;
-    flex-flow:column;
+    flex-flow:column;/* show in column in mobile view*/
     display:flex;/*default flex style in row*/
     height:100%;/*to match the complete height of wrapping html element(here toolbar )*/
 }
 
 @media (min-width:500px){
     .Navigationitems{
-        flex-flow:row;
+        flex-flow:row;/* in desktop*/
     }
 }

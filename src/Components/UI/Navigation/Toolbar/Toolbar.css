@@ -8,7 +8,7 @@
     justify-content: space-between;
     padding:0px 20px;
     z-index:90;/*less than backdrop*/
-    box-sizing:border-box;
+    box-sizing:border-box;/* includes border and padding ad well */
     background-color:brown;
     align-items:center;
 }

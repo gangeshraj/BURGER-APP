@@ -8,21 +8,22 @@ class OrderSummary extends Component{
     componentWillUpdate(){
         //this componet will update only when the parent Modal component
         //"show" props changes as shouldComponentUpdate checks it
-        //for updating
+        //for updating this is done because order summary is to be updated 
+        //when it is to be shown else unnecessary update takes down efficiency
         console.log("order summaryt will update");
     }
 
 
     render(){
+
         
-                    const ingredientSummary=Object.keys(this.props.ingredients).map(igkey=>(
-                    <li key={igkey}>
-                        <span style={{textTransform:'capitalize'}}>{igkey}</span>
-                        :{this.props.ingredients[igkey]}
-                    </li>   )
-                     )
-        
-        
+            //variable containing user choices
+            const ingredientSummary=Object.keys(this.props.ingredients).map(igkey=>(
+            <li key={igkey}>
+                <span style={{textTransform:'capitalize'}}>{igkey}</span>
+                :{this.props.ingredients[igkey]}
+            </li>   )
+                )
         
             return <Auxillary>
                         <h3>Your order</h3>

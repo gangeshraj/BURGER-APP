@@ -4,9 +4,8 @@ import Proptypes from 'prop-types';
 
 
 
-class BurgerIngredient extends Component{
-
-
+class BurgerIngredient extends Component{//Burger ingredient component rendering burger 
+    //slices and toppings on basis of props type
     render(){
     let ingredient=null;
 

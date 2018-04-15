@@ -39,11 +39,24 @@ class Layout extends Component{
 
         return(
             <Auxillary>
+                {/* shows toolbar which has menu component which has 
+                three horizontal line on which if we click we get sidebar*/}
                 <Toolbar toggleClickHandler={this.MenuOnToolbarTogglingSideBar}/>
+                {/* showstaus tell sidebar to be seen or not seen
+                closed make showstatus false or make sidedrawer invisible */}
                 <Sidedrawer 
                     showstatus={this.state.sidedrawervisible} 
                     closed={this.sideDrawerClosedHandler}/>
-                <div>toolbar ,sidebarsssss , backdrop</div>
+
+                {/* The <main> tag specifies the main content of a document.
+
+                The content inside the <main> element should be unique to the document. It should not contain
+                 any content that is repeated across documents such as sidebars, navigation links, copyright 
+                 rmation, site logos, and search forms.
+
+                Note: There must not be more than one <main> element in a document. The <main> element must NOT 
+                be a descendant of an <article>, <aside>, <footer>, <header>, or <nav> element.
+                */}
                 <main className={Classes.Content}>
                     {this.props.children}
                 </main>

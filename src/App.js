@@ -7,6 +7,7 @@ class App extends Component {
     return (
       <Layout>
         <BurgerBuilder/>
+        {/* the above component is responsible for burger  */}
       </Layout>
     );
   }

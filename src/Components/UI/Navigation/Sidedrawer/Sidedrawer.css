@@ -1,27 +1,31 @@
 .Sidedrawer{
-    position:fixed;
+    position:fixed;/*position doesnt change with scrolling*/
     top:0;
     left:0;
-    z-index: 200;/*higher than backdrop*/
-    height:100%;
+    z-index: 200;/*higher than backdrop so it looks above*/
+    height:100%;/*take full height of screen*/
     max-width:80%;/* so it not crosses the edges of screen*/
     width:280px;
     background-color:white;
     padding:32px 16px;
     box-sizing:border-box;
-    transition: transform 0.3s ease-out;
+    transition: transform 0.3s ease-out;/* CSS transitions allows you to change 
+    property values smoothly (from one value to another), over a given duration*/
 }
 
 @media only screen and (min-width:500px) {
     .Sidedrawer{
-        display:none;
+        display:none; 
+        /* when >=500 px not display sidedrawer */
     }
 }
 
 .Open{
     transform: translateX(0);
+    /* when open class is used using transition property above */
 }
 
 .Close{
     transform: translateX(-100%);
+    /* when close class is used  using transition property above*/
 }

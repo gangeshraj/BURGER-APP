@@ -8,7 +8,7 @@
     padding: 10px;
     margin: 10px;
     font-weight: bold;
-    z-index:500;
+    z-index:500;/* as buttton needsto be shown in modal z axis*/
 }
 
 .Button:first-of-type {

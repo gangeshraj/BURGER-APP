@@ -10,7 +10,12 @@ const WithErrorHandler=(WrappedComponent,axios)=>{
             error:null//it is null as there is no error in the beginning
         }
 
-        componentDidMount(){
+        componentWillMount(){//if we invoke it in componentDidMount
+            //than it will run only when the child component componentDidMount gets completed
+            //so wrapped component which is burger builder which ischildren component if gets error in http
+            //response the intercepto here wont run asit is parent component so we have to have it as 
+            //component will mount so we need to setUp interceptors before child component
+            //which can only happen if c
 
             axios.interceptors.request.use(request=>{
                 
@@ -34,7 +39,7 @@ const WithErrorHandler=(WrappedComponent,axios)=>{
         return (
             <Auxillary>
                 <Modal 
-                    modalClosed={this.removeErrorMessage}
+                    closeModal={this.removeErrorMessage}
                     show={this.state.error}>
                     {/* show modal if error!==null  */}
                     {this.state.error?this.state.error.message:null}
@@ -42,7 +47,7 @@ const WithErrorHandler=(WrappedComponent,axios)=>{
                     error than this.state.error will throw error so in ternary operator
                     2.there will be message property returned by error object in firebase*/}
                 </Modal>
-                <WrappedComponent {...this.props}></WrappedComponent>
+                <WrappedComponent {...this.props}/>
             </Auxillary>
         );
 

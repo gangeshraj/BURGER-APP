@@ -23,20 +23,17 @@ class BurgerBuilder extends Component{
     constructor(props){
         super(props);
         this.state={
-        ingredients:{//ingredientsin burger which changes the burger on screen
-            salad:0,
-            bacon:0,
-            cheese:0,
-            meat:0
-                    },
+        ingredients:null,//ingredientsin burger which changes the burger on 
+        //screen will be fetched from firebase database
         total_price:4,//base price which is always 4 without any ingredients 
         //and it have theprice of the whole burger
         purchasable:false,//if added atleast one ngredient make it true else false
         purchasing:false, //when modal box opens it ismade true as now you are proceeding for purchase,
+        error:false,//if there is no errorit is false else populate it
         loading:false //if false not show spinners else show spinners 
         //it happens when we click on continue button on modal box 
         //and data is sent to firebase server but response is not received
-               }
+        }
     }
 
     openModel=()=>{//it opens modal
@@ -112,6 +109,8 @@ class BurgerBuilder extends Component{
             },
             deliveryMethod:"fastest"
         }
+
+
         axios_instance_for_orders.post('/orders.json',order)//url appended to our base url received in axios
         .then(response=>this.setState((previousState,props)=>{
             return {
@@ -126,8 +125,23 @@ class BurgerBuilder extends Component{
             }
         }))
     }
+
+
+    componentDidMount(){
+        axios_instance_for_orders.get('/ingredients.json')//getting data from 
+        //firebase backend 
+        .then(response=>{
+            this.setState({ingredients:response.data});
+        })
+        .catch(error=>{
+            this.setState({error:true});
+        });
+    }
+
+
     
     render(){
+
 
         const disabledInfo={//a copy of ingredients object
             ...this.state.ingredients
@@ -137,16 +151,41 @@ class BurgerBuilder extends Component{
             disabledInfo[key]=disabledInfo[key]<=0;
         }
 
-        let orderSummary=<OrderSummary 
-                        // it has details inmodal in order summary component
-                        ingredients={this.state.ingredients}
-                        purchaseContinue={this.purchaseContinueHandler}
-                        purchaseCancel={this.closeModal}
-                        price={this.state.total_price}
-                        />;
+        let orderSummary=null;
 
-        if(this.state.loading)//if order is sent means we are loading show spinner
-            orderSummary=<Spinner/>;//else above will be shown
+
+        //  below burger component render burger on screen and if 
+        // not received from firebase server render spinner component
+        let burger=this.state.error?<p style={{textAlign:"center",color:"red",textTransform:"uppercase"}}>
+        Ingredient's can't be loaded</p>:<Spinner/>;
+
+        if(this.state.ingredients)
+            {
+            burger=(<Auxillary>
+                    <Burger  ingredients={this.state.ingredients}/>
+                    {/* below build controls render build controls on screen */}
+                    <BuildControls 
+                        ingredientAdded={this.addIngredientHandler}
+                        ingredientRemoved={this.removeIngredientHandler}
+                        disabled={disabledInfo}
+                        price={this.state.total_price}
+                        purchasable={this.state.purchasable}
+                        ordered={this.openModel}
+                    />
+                    </Auxillary>
+                    );
+
+                orderSummary=<OrderSummary 
+                // it has details inmodal in order summary component
+                ingredients={this.state.ingredients}
+                purchaseContinue={this.purchaseContinueHandler}
+                purchaseCancel={this.closeModal}
+                price={this.state.total_price}
+                />;
+            };
+
+            if(this.state.loading)//if order is sent means we are loading show spinner
+                orderSummary=<Spinner/>;//else above will be shown
 
         return  <Auxillary>
                 {/* above high order component */}
@@ -154,17 +193,7 @@ class BurgerBuilder extends Component{
                 <Modal show={this.state.purchasing} closeModal={this.closeModal}>
                     {orderSummary}
                 </Modal>
-                {/* below burger componen render burger on screen */}
-                <Burger  ingredients={this.state.ingredients}/>
-                {/* below build controls render build controls on screen */}
-                <BuildControls 
-                    ingredientAdded={this.addIngredientHandler}
-                    ingredientRemoved={this.removeIngredientHandler}
-                    disabled={disabledInfo}
-                    price={this.state.total_price}
-                    purchasable={this.state.purchasable}
-                    ordered={this.openModel}
-                />
+                {burger}
                </Auxillary>
     }
 }

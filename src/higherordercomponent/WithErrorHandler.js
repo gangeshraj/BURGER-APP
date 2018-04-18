@@ -17,12 +17,12 @@ const WithErrorHandler=(WrappedComponent,axios)=>{
             //component will mount so we need to setUp interceptors before child component
             //which can only happen if c
 
-            axios.interceptors.request.use(request=>{
+            this.reqInterceptor=axios.interceptors.request.use(request=>{
                 
                 this.setState({error:null});//again remove all the error if requesting again a new request
                 return request;//must to be returned so request can continue
             });
-            axios.interceptors.response.use(res=>res,errorobject=>{//we are not interested in response 
+            this.resInterceptor=axios.interceptors.response.use(res=>res,errorobject=>{//we are not interested in response 
                 //but must return it so response can continue
                 //object we receive from firebase but the error object we receive from 
                 //firebase which is a javascript object
@@ -33,6 +33,15 @@ const WithErrorHandler=(WrappedComponent,axios)=>{
 
         removeErrorMessage=()=>{//on clicking backDrop the error message is removed
             this.setState({error:null});
+        }
+
+        componentWillUnmount(){//since this componet can wrap many components 
+            //so if during running if any component will mount it will use the same instance of
+            //the component so than we are attaching multiple interceptors to same axios instance therefore 
+            //it will create interceptors in memory somwhere so it is better to 
+            //eject them when component is not required
+            axios.interceptors.request.eject(this.reqInterceptor);
+            axios.interceptors.request.eject(this.resInterceptor);
         }
 
         render(){

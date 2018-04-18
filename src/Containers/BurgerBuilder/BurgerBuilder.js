@@ -95,7 +95,7 @@ class BurgerBuilder extends Component{
                 loading:true//loading is false here so negated to true
             }
         })
-        const order={//populating dummy data for sending
+        const order={//populating dummy data for sendingto firebase server
             ingredient:this.state.ingredients,
             price:this.state.total_price,
             customer:{
@@ -130,10 +130,16 @@ class BurgerBuilder extends Component{
     componentDidMount(){
         axios_instance_for_orders.get('/ingredients.json')//getting data from 
         //firebase backend 
-        .then(response=>{
-            this.setState({ingredients:response.data});
+        .then(response=>{//response object from firebase has data property
+            this.setState((previousState,props)=>{return {ingredients:response.data}})
+            //now price is updated
+            let updated_price=this.state.total_price+(this.state.ingredients.salad*INGREDINT_PRICE.salad)+
+            (this.state.ingredients.cheese*INGREDINT_PRICE.cheese)+(this.state.ingredients.bacon*INGREDINT_PRICE.bacon)+
+            (this.state.ingredients.meat*INGREDINT_PRICE.meat)
+            this.setState((previousState,props)=>{return {total_price:updated_price}})
         })
-        .catch(error=>{
+        .catch(error=>{//make error as true so a error message is
+            //initialized to burger which is shown instead of burger
             this.setState({error:true});
         });
     }
@@ -151,14 +157,16 @@ class BurgerBuilder extends Component{
             disabledInfo[key]=disabledInfo[key]<=0;
         }
 
-        let orderSummary=null;
+        let orderSummary=null;//order summary is null inititally seen on modal
 
-
-        //  below burger component render burger on screen and if 
-        // not received from firebase server render spinner component
+        //  if the error state is true some error occured show error message 
+        //  else
+        //  show spinner
         let burger=this.state.error?<p style={{textAlign:"center",color:"red",textTransform:"uppercase"}}>
         Ingredient's can't be loaded</p>:<Spinner/>;
 
+        // now if ingredients !==null means ingredients fetched from server
+        // initaialize burger to be rendered
         if(this.state.ingredients)
             {
             burger=(<Auxillary>
@@ -175,6 +183,9 @@ class BurgerBuilder extends Component{
                     </Auxillary>
                     );
 
+                // As order summary was null , now ingredients are fetched from server
+                // so we can have order summary populated with ingredients received from
+                //firebase server
                 orderSummary=<OrderSummary 
                 // it has details inmodal in order summary component
                 ingredients={this.state.ingredients}
@@ -184,6 +195,8 @@ class BurgerBuilder extends Component{
                 />;
             };
 
+            //ingredients not received so we need to show spinner 
+            //in order summary present in modal as no ingredients received
             if(this.state.loading)//if order is sent means we are loading show spinner
                 orderSummary=<Spinner/>;//else above will be shown
 

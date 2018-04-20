@@ -89,41 +89,15 @@ class BurgerBuilder extends Component{
     }
 
     purchaseContinueHandler=()=>{//method invoked on continue button clicked on modal box
-        //alert("Continue shopping");
-        this.setState((previousState,props)=>{
-            return {
-                loading:true//loading is false here so negated to true
-            }
-        })
-        const order={//populating dummy data for sendingto firebase server
-            ingredient:this.state.ingredients,
-            price:this.state.total_price,
-            customer:{
-                name:"gangesh",
-                address:{
-                    street:"st zavier palce",
-                    zipcode:"765432",
-                    country:"India"
-                },
-                email:"gangeshraj1@gmail.com",
-            },
-            deliveryMethod:"fastest"
+
+        const queryParams=[];
+        for(let i in this.state.ingredients){
+            queryParams.push(encodeURIComponent(i)+'='+ encodeURIComponent(this.state.ingredients[i]))
         }
-
-
-        axios_instance_for_orders.post('/orders.json',order)//url appended to our base url received in axios
-        .then(response=>this.setState((previousState,props)=>{
-            return {
-                loading:false,//loading is true from above so negated to false again,
-                purchasing:false//to close the modal
-            }
-        }))
-        .catch(error=>this.setState((previousState,props)=>{
-            return {
-                loading:false,//loading is true from above so negated to false again
-                purchasing:false//to close the modal
-            }
-        }))
+        this.props.history.push({
+            pathname:'/checkout',
+            search:'?'+queryParams.join('&')
+        })
     }
 
 
@@ -131,18 +105,25 @@ class BurgerBuilder extends Component{
         axios_instance_for_orders.get('/ingredients.json')//getting data from 
         //firebase backend 
         .then(response=>{//response object from firebase has data property
-            this.setState((previousState,props)=>{return {ingredients:response.data}})
+            this.setState({ingredients:response.data});
+            //console.log(this.state.ingredients);
             //now price is updated
-            let updated_price=this.state.total_price+(this.state.ingredients.salad*INGREDINT_PRICE.salad)+
-            (this.state.ingredients.cheese*INGREDINT_PRICE.cheese)+(this.state.ingredients.bacon*INGREDINT_PRICE.bacon)+
-            (this.state.ingredients.meat*INGREDINT_PRICE.meat)
-            this.setState((previousState,props)=>{return {total_price:updated_price}})
+            // let updated_price=this.state.total_price+(this.state.ingredients.salad*INGREDINT_PRICE.salad)
+            // +(this.state.ingredients.cheese*INGREDINT_PRICE.cheese)+(this.state.ingredients.bacon*INGREDINT_PRICE.bacon)+
+            // (this.state.ingredients.meat*INGREDINT_PRICE.meat)
+            // this.setState({total_price:updated_price})
+            // this.updatePurchaseState(this.state.ingredients);//update purchase ability
         })
         .catch(error=>{//make error as true so a error message is
             //initialized to burger which is shown instead of burger
             this.setState({error:true});
         });
+
+
     }
+    
+
+
 
 
     

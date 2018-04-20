@@ -3,7 +3,7 @@ import Classes from './Burger.css';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 
 const Burger=(props)=>{//renders burger
-     
+
     let transformedingredients=Object.keys(props.ingredients).map(ingkey=>{
             //here ing key is salad,salmon etc the ingredients
             //here props.ingredients[ingkey] is the numerical value of that ingredient

@@ -4,6 +4,7 @@ import Classes from './ContactData.css';
 import axios_instance_for_orders from '../../../axios_instance_for_orders';
 import Spinner from '../../../Components/UI/Spinner/Spinner';
 import Input from '../../../Components/UI/Forms/Input/Input';
+import WithErrorHandler from '../../../higherordercomponent/WithErrorHandler';
 
 class ContactData extends Component{
     state={
@@ -283,4 +284,4 @@ class ContactData extends Component{
     }
 }
 
-export default ContactData;
+export default WithErrorHandler(ContactData,axios_instance_for_orders);

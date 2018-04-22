@@ -5,11 +5,12 @@ import Classes from './Navigationitems.css';
 const navigationitems =(props)=>(//list of navigation items seen at right side top in desktop
     // and left top sidebar in mobile using classes.navigationitems
     <ul className={Classes.Navigationitems}>
-        <Navigationitem link="/" active>{/*see how active={true} is written in like active */}
+        {/* here exact is passed as props so all nav link not have exact */}
+        <Navigationitem link="/" exact>
             Burger Builder
         </Navigationitem >
-        <Navigationitem link="/">
-            Check out
+        <Navigationitem link="/orders">
+            Orders
         </Navigationitem>
     </ul>
 );

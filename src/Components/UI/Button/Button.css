@@ -9,6 +9,10 @@
     z-index:500;/* as buttton needsto be shown in modal z axis*/
 }
 
+.Disabled{
+    background-color: #888888;
+}
+
 .Button:first-of-type {
     margin-left: 0;
     padding-left: 0;

@@ -109,11 +109,12 @@ class BurgerBuilder extends Component{
             this.setState({ingredients:response.data});
             //console.log(this.state.ingredients);
             //now price is updated
-            // let updated_price=this.state.total_price+(this.state.ingredients.salad*INGREDINT_PRICE.salad)
-            // +(this.state.ingredients.cheese*INGREDINT_PRICE.cheese)+(this.state.ingredients.bacon*INGREDINT_PRICE.bacon)+
-            // (this.state.ingredients.meat*INGREDINT_PRICE.meat)
-            // this.setState({total_price:updated_price})
-            // this.updatePurchaseState(this.state.ingredients);//update purchase ability
+            let updated_price=this.state.total_price+(this.state.ingredients.salad*INGREDINT_PRICE.salad)
+            +(this.state.ingredients.cheese*INGREDINT_PRICE.cheese)
+            +(this.state.ingredients.bacon*INGREDINT_PRICE.bacon)
+            +(this.state.ingredients.meat*INGREDINT_PRICE.meat)
+            this.setState({total_price:updated_price})
+            this.updatePurchaseState(this.state.ingredients);//update purchase ability
         })
         .catch(error=>{//make error as true so a error message is
             //initialized to burger which is shown instead of burger

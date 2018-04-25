@@ -6,6 +6,9 @@ import Spinner from '../../../Components/UI/Spinner/Spinner';
 import Input from '../../../Components/UI/Forms/Input/Input';
 import WithErrorHandler from '../../../higherordercomponent/WithErrorHandler';
 
+
+import {connect}from 'react-redux';
+
 class ContactData extends Component{
     state={
         loading:false,//initaially nothing is loaded from web
@@ -197,7 +200,7 @@ class ContactData extends Component{
 
 
         const order={//populating dummy data for sendingto firebase server
-            ingredient:this.props.ingredients,//burgeringredients
+            ingredient:this.props.ings,//burgeringredients
             price:this.props.price,//its price
             submitFormData:formData//form data got
         }
@@ -284,4 +287,12 @@ class ContactData extends Component{
     }
 }
 
-export default WithErrorHandler(ContactData,axios_instance_for_orders);
+
+const mapStateToProps=state=>{
+    return {
+        ings:state.ingredients,
+        price:state.total_price
+    }
+}
+
+export default connect(mapStateToProps)(WithErrorHandler(ContactData,axios_instance_for_orders));

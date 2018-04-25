@@ -1,28 +1,31 @@
 import React,{Component} from 'react';
 import CheckoutSummary from '../../Components/Order/CheckoutSummary/CheckoutSummary';
-import {Route} from 'react-router-dom';//to show nested routes
+import {Route} from 'react-router-dom';//to show nested routes we need to have route
 import ContactData from './ContactData/ContactData';
 
-class Checkout extends Component{
-    state={
-        ingredients:{},//ingredients willbe loaded from firebase
-        totalPrice:0 //price is 0 initially
-    }
+import {connect} from 'react-redux';
 
-    componentDidMount(){
-        //get ingrdients from url
-        //URLSearchParams is default property of javascript
-        const query=new URLSearchParams(this.props.location.search);
-        const ingredients_from_url={};
-        let price=0;
-        for(let param of query.entries()){//returns[key,value]
-            if(param[0]==='price')
-                price=param[1];    
-            else
-                ingredients_from_url[param[0]]=+param[1]//populating ingredients json
-        }
-        this.setState({ingredients:ingredients_from_url,totalPrice:price});//set dtate of ingredients and the price
-    }
+
+class Checkout extends Component{
+    // state={ will be managed by redux
+    //     // ingredients:{},//ingredients willbe loaded from firebase
+    //     totalPrice:0 //price is 0 initially
+    // }
+
+    // componentDidMount(){
+    //     //get ingrdients from url
+    //     //URLSearchParams is default property of javascript
+    //     const query=new URLSearchParams(this.props.location.search);
+    //     const ingredients_from_url={};
+    //     let price=0;
+    //     for(let param of query.entries()){//returns[key,value]
+    //         if(param[0]==='price')
+    //             price=param[1];    
+    //         else
+    //             ingredients_from_url[param[0]]=+param[1]//populating ingredients json
+    //     }
+    //     this.setState({ingredients:ingredients_from_url,totalPrice:price});//set dtate of ingredients and the price
+    // }
 
     checkOutCancelledHandler=()=>{
             this.props.history.goBack();//go backto the main page 
@@ -36,21 +39,33 @@ class Checkout extends Component{
         return (
             <div>
                 <CheckoutSummary 
-                ingredients={this.state.ingredients} 
+                ingredients={this.props.ings} 
                 checkOutCancelled={this.checkOutCancelledHandler}
                 checkOutContinued={this.checkOutContinuedHandler}/>
                 {/* passing data between pages using render
                     from below code and nesting of routing where url is appended dynaically from parent component */}
-                <Route 
+                {/* <Route //used before redux now redux code is below
                     path={this.props.match.path +'/contact-data'}
                     render={(props)=>
                     <ContactData 
                     {...props}
                     ingredients={this.state.ingredients} 
-                    price={this.state.totalPrice}/>}/>
+                    price={this.state.totalPrice}/>}/> */}
+                <Route
+                    path={this.props.match.path +'/contact-data'}
+                    component={ContactData}
+                />
             </div>
         );
     }
 }
 
-export default Checkout;
+
+const mapStateToProps=state=>{
+    return {
+        ings:state.ingredients
+    }
+}
+
+
+export default connect(mapStateToProps)(Checkout);

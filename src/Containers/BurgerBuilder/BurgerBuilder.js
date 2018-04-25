@@ -9,25 +9,16 @@ import axios_instance_for_orders from '../../axios_instance_for_orders';//use in
 import Spinner from '../../Components/UI/Spinner/Spinner';
 import WithErrorHandler from '../../higherordercomponent/WithErrorHandler';
 
-//global pricing of burger ingredients
-const INGREDINT_PRICE={
-    salad:1.2,
-    bacon:1.5,
-    cheese:2.1,
-    meat:2.5
+import * as actionTypes from '../../store/actions';
+import {connect} from 'react-redux';
 
-}
+
 
 class BurgerBuilder extends Component{
     
     constructor(props){
         super(props);
         this.state={
-        ingredients:null,//ingredientsin burger which changes the burger on 
-        //screen will be fetched from firebase database
-        total_price:4,//base price which is always 4 without any ingredients 
-        //and it have theprice of the whole burger
-        purchasable:false,//if added atleast one ngredient make it true else false
         purchasing:false, //when modal box opens it ismade true as now you are proceeding for purchase,
         error:false,//if there is no errorit is false else populate it
         loading:false //if false not show spinners else show spinners 
@@ -41,46 +32,47 @@ class BurgerBuilder extends Component{
     }
 
     addIngredientHandler=(type)=>{//type is passed of ingredient
-        const oldcount=this.state.ingredients[type];//last count is received of that ingredient in burger
-        const updatedcount=oldcount+1;
-        const updatedIngredients={//make a copy of the ingredients not a refrence copy
-            ...this.state.ingredients
-        }
-        updatedIngredients[type]=updatedcount;//in the newly created object make the ingredient 
-        //type as the new one
-        const new_price=this.state.total_price+INGREDINT_PRICE[type];
-        //new price =last totalprice+ ingredient newly price
-        this.setState({total_price:new_price,ingredients:updatedIngredients});
-        //updating the totalprice ,ingredients onject replaced by new ingredients oject
-        this.updatePurchaseState(updatedIngredients);
-        //call above method to know whether burger is purchasable or not
+        // const oldcount=this.state.ingredients[type];//last count is received of that ingredient in burger
+        // const updatedcount=oldcount+1;
+        // const updatedIngredients={//make a copy of the ingredients not a refrence copy
+        //     ...this.state.ingredients
+        // }
+        // updatedIngredients[type]=updatedcount;//in the newly created object make the ingredient 
+        // //type as the new one
+        // const new_price=this.state.total_price+INGREDINT_PRICE[type];
+        // //new price =last totalprice+ ingredient newly price
+        // this.setState({total_price:new_price,ingredients:updatedIngredients});
+        // //updating the totalprice ,ingredients onject replaced by new ingredients oject
+        // this.updatePurchaseState(updatedIngredients);
+        // //call above method to know whether burger is purchasable or not
     }
 
     removeIngredientHandler=(type)=>{
-        const oldcount=this.state.ingredients[type];
-        if(oldcount<=0)
-            return ;
-        const updatedcount=oldcount-1;
-        const updatedIngredients={
-            ...this.state.ingredients
-        }
-        updatedIngredients[type]=updatedcount;
-        const new_price=this.state.total_price-INGREDINT_PRICE[type];
-        this.setState({total_price:new_price,ingredients:updatedIngredients});
-        this.updatePurchaseState(updatedIngredients);
-        //call above method to know whether burger is purchasable or not
+        // const oldcount=this.state.ingredients[type];
+        // if(oldcount<=0)
+        //     return ;
+        // const updatedcount=oldcount-1;
+        // const updatedIngredients={
+        //     ...this.state.ingredients
+        // }
+        // updatedIngredients[type]=updatedcount;
+        // const new_price=this.state.total_price-INGREDINT_PRICE[type];
+        // this.setState({total_price:new_price,ingredients:updatedIngredients});
+        // this.updatePurchaseState(updatedIngredients);
+        // //call above method to know whether burger is purchasable or not
     }
 
     updatePurchaseState=(ingredients)=>{
         //here sum of the the ingredients should be >0 to make burge purchasable
         const sum=Object.keys(ingredients)//loop on ingredients object passed in function
                   .map((key,value)=>{//as key value pair
-                        return ingredients[key]
+                        return ingredients[key];
                   })
                   .reduce((sum,elem)=>{//reduce function where elem is passed from map "ingredients[key]"
                       return sum+elem;//sum is the final value to be returned
                   },0);// 0 is the initial value of sum
-        this.setState({purchasable:sum>0})
+        console.log("this is the sum",sum);
+        return sum>0;
 
     }
 
@@ -90,37 +82,39 @@ class BurgerBuilder extends Component{
 
     purchaseContinueHandler=()=>{//method invoked on continue button clicked on modal box
 
-        const queryParams=[];
-        for(let i in this.state.ingredients){
-            queryParams.push(encodeURIComponent(i)+'='+ encodeURIComponent(this.state.ingredients[i]))
-        }
-        queryParams.push('price='+this.state.total_price);
-        this.props.history.push({
-            pathname:'/checkout',
-            search:'?'+queryParams.join('&')
-        })
+        // const queryParams=[];//now we dont passs query params we will manage it by redux
+        // for(let i in this.state.ingredients){
+        //     queryParams.push(encodeURIComponent(i)+'='+ encodeURIComponent(this.state.ingredients[i]))
+        // }
+        // queryParams.push('price='+this.state.total_price);
+        // this.props.history.push({
+        //     pathname:'/checkout',
+        //     search:'?'+queryParams.join('&')
+        // })
+        this.props.history.push('/checkout');
+        
     }
 
 
     componentDidMount(){
-        axios_instance_for_orders.get('/ingredients.json')//getting data from 
-        //firebase backend 
-        .then(response=>{//response object from firebase has data property
-            this.setState({ingredients:response.data});
-            //console.log(this.state.ingredients);
-            //now price is updated
-            let updated_price=this.state.total_price+(this.state.ingredients.salad*INGREDINT_PRICE.salad)
-            +(this.state.ingredients.cheese*INGREDINT_PRICE.cheese)
-            +(this.state.ingredients.bacon*INGREDINT_PRICE.bacon)
-            +(this.state.ingredients.meat*INGREDINT_PRICE.meat)
-            this.setState({total_price:updated_price})
-            this.updatePurchaseState(this.state.ingredients);//update purchase ability
-        })
-        .catch(error=>{//make error as true so a error message is
-            //initialized to burger which is shown instead of burger
-            this.setState({error:true});
-        });
-
+        console.log("component mouted",this.props.ings);
+        // axios_instance_for_orders.get('/ingredients.json')//getting data from 
+        // //firebase backend 
+        // .then(response=>{//response object from firebase has data property
+        //     this.setState({ingredients:response.data});
+        //     //console.log(this.state.ingredients);
+        //     //now price is updated
+        //     let updated_price=this.state.total_price+(this.state.ingredients.salad*INGREDINT_PRICE.salad)
+        //     +(this.state.ingredients.cheese*INGREDINT_PRICE.cheese)
+        //     +(this.state.ingredients.bacon*INGREDINT_PRICE.bacon)
+        //     +(this.state.ingredients.meat*INGREDINT_PRICE.meat)
+        //     this.setState({total_price:updated_price})
+        //     this.updatePurchaseState(this.state.ingredients);//update purchase ability
+        // })
+        // .catch(error=>{//make error as true so a error message is
+        //     //initialized to burger which is shown instead of burger
+        //     this.setState({error:true});
+        // });
 
     }
     
@@ -130,10 +124,10 @@ class BurgerBuilder extends Component{
 
     
     render(){
-
+        console.log("inside render",this.props.ings);
 
         const disabledInfo={//a copy of ingredients object
-            ...this.state.ingredients
+            ...this.props.ings
         };
 
         for (let key in disabledInfo){//if any ingredient is 0 or less its decrease button is diabled
@@ -150,17 +144,17 @@ class BurgerBuilder extends Component{
 
         // now if ingredients !==null means ingredients fetched from server
         // initaialize burger to be rendered
-        if(this.state.ingredients)
+        if(this.props.ings)
             {
             burger=(<Auxillary>
-                    <Burger  ingredients={this.state.ingredients}/>
+                    <Burger  ingredients={this.props.ings}/>
                     {/* below build controls render build controls on screen */}
                     <BuildControls 
-                        ingredientAdded={this.addIngredientHandler}
-                        ingredientRemoved={this.removeIngredientHandler}
+                        ingredientAdded={this.props.onIngredientAdded}
+                        ingredientRemoved={this.props.onIngredientRemoved}
                         disabled={disabledInfo}
-                        price={this.state.total_price}
-                        purchasable={this.state.purchasable}
+                        price={this.props.price}
+                        purchasable={this.updatePurchaseState(this.props.ings)}
                         ordered={this.openModel}
                     />
                     </Auxillary>
@@ -171,10 +165,10 @@ class BurgerBuilder extends Component{
                 //firebase server
                 orderSummary=<OrderSummary 
                 // it has details inmodal in order summary component
-                ingredients={this.state.ingredients}
+                ingredients={this.props.ings}
                 purchaseContinue={this.purchaseContinueHandler}
                 purchaseCancel={this.closeModal}
-                price={this.state.total_price}
+                price={this.props.price}
                 />;
             };
 
@@ -194,8 +188,24 @@ class BurgerBuilder extends Component{
     }
 }
 
+const matchStateToProps=state=>{
+    console.log("matchstatetoprops")
+    return {
+        ings:state.ingredients,
+        price:state.total_price
+    };
+}
+
+const matchDispatchToProps=dispatch=>{
+    console.log("matchdispatoprops")
+    return {
+        onIngredientAdded: (ingName)=>dispatch({type:actionTypes.ADD_INGREDIENTS,ingredientName:ingName}),
+        onIngredientRemoved: (ingName)=>dispatch({type:actionTypes.REMOVE_INGREDIENTS,ingredientName:ingName})
+    };
+}
+
 
 // wrapped in high order component so as to show error using modal component
 // this is very optimal way now we can use any component which uses axios to 
 // have high order component WithErrorHandler wrappping it
-export default WithErrorHandler(BurgerBuilder,axios_instance_for_orders);
+export default connect(matchStateToProps,matchDispatchToProps)(WithErrorHandler(BurgerBuilder,axios_instance_for_orders));

@@ -4,13 +4,16 @@ import Burger from '../../Components/Burger/Burger'
 import BuildControls from '../../Components/Burger/BuildControls/BuildControls';
 import Modal from '../../Components/UI/Modal/Modal';
 import OrderSummary from '../../Components/Burger/OrderSummary/OrderSummary';
-import axios_instance_for_orders from '../../axios_instance_for_orders';//use instance of 
-//axios for sending http request to our fire base server
+
 import Spinner from '../../Components/UI/Spinner/Spinner';
 import WithErrorHandler from '../../higherordercomponent/WithErrorHandler';
 
-import * as actionTypes from '../../store/actions';
+import * as  burgerBuilderActions from '../../store/actions/index';
 import {connect} from 'react-redux';
+
+import axios_instance_for_orders from '../../axios_instance_for_orders';//use instance of 
+//axios for sending http request to our fire base server
+
 
 
 
@@ -20,8 +23,8 @@ class BurgerBuilder extends Component{
         super(props);
         this.state={
         purchasing:false, //when modal box opens it ismade true as now you are proceeding for purchase,
-        error:false,//if there is no errorit is false else populate it
-        loading:false //if false not show spinners else show spinners 
+        // error:false,//if there is no errorit is false else populate it
+        // loading:false //if false not show spinners else show spinners 
         //it happens when we click on continue button on modal box 
         //and data is sent to firebase server but response is not received
         }
@@ -98,24 +101,7 @@ class BurgerBuilder extends Component{
 
     componentDidMount(){
         console.log("component mouted",this.props.ings);
-        // axios_instance_for_orders.get('/ingredients.json')//getting data from 
-        // //firebase backend 
-        // .then(response=>{//response object from firebase has data property
-        //     this.setState({ingredients:response.data});
-        //     //console.log(this.state.ingredients);
-        //     //now price is updated
-        //     let updated_price=this.state.total_price+(this.state.ingredients.salad*INGREDINT_PRICE.salad)
-        //     +(this.state.ingredients.cheese*INGREDINT_PRICE.cheese)
-        //     +(this.state.ingredients.bacon*INGREDINT_PRICE.bacon)
-        //     +(this.state.ingredients.meat*INGREDINT_PRICE.meat)
-        //     this.setState({total_price:updated_price})
-        //     this.updatePurchaseState(this.state.ingredients);//update purchase ability
-        // })
-        // .catch(error=>{//make error as true so a error message is
-        //     //initialized to burger which is shown instead of burger
-        //     this.setState({error:true});
-        // });
-
+        this.props.onInitIngredients();
     }
     
 
@@ -139,7 +125,7 @@ class BurgerBuilder extends Component{
         //  if the error state is true some error occured show error message 
         //  else
         //  show spinner
-        let burger=this.state.error?<p style={{textAlign:"center",color:"red",textTransform:"uppercase"}}>
+        let burger=this.props.error?<p style={{textAlign:"center",color:"red",textTransform:"uppercase"}}>
         Ingredient's can't be loaded</p>:<Spinner/>;
 
         // now if ingredients !==null means ingredients fetched from server
@@ -174,8 +160,8 @@ class BurgerBuilder extends Component{
 
             //ingredients not received so we need to show spinner 
             //in order summary present in modal as no ingredients received
-            if(this.state.loading)//if order is sent means we are loading show spinner
-                orderSummary=<Spinner/>;//else above will be shown
+            // if(this.state.loading)//if order is sent means we are loading show spinner
+            //     orderSummary=<Spinner/>;//else above will be shown
 
         return  <Auxillary>
                 {/* above high order component */}
@@ -192,15 +178,17 @@ const matchStateToProps=state=>{
     console.log("matchstatetoprops")
     return {
         ings:state.ingredients,
-        price:state.total_price
+        price:state.total_price,
+        error:state.error
     };
 }
 
 const matchDispatchToProps=dispatch=>{
     console.log("matchdispatoprops")
     return {
-        onIngredientAdded: (ingName)=>dispatch({type:actionTypes.ADD_INGREDIENTS,ingredientName:ingName}),
-        onIngredientRemoved: (ingName)=>dispatch({type:actionTypes.REMOVE_INGREDIENTS,ingredientName:ingName})
+        onIngredientAdded: (ingName)=>dispatch(burgerBuilderActions.addIngredients(ingName)),
+        onIngredientRemoved: (ingName)=>dispatch(burgerBuilderActions.removeIngredients(ingName)),
+        onInitIngredients:()=>dispatch(burgerBuilderActions.initIngredients())
     };
 }
 

@@ -3,6 +3,7 @@ import Classes from './Burger.css';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 
 const Burger=(props)=>{//renders burger
+    console.log("heretransformedIngredients",props);
 
     let transformedingredients=Object.keys(props.ingredients).map(ingkey=>{
             //here ing key is salad,salmon etc the ingredients

@@ -2,46 +2,49 @@ import React,{Component} from 'react';
 import Order from '../../Components/Order/Order';
 import axios_instance_for_orders from '../../axios_instance_for_orders';
 import WithErrorHandler from '../../higherordercomponent/WithErrorHandler';
+import * as actions from '../../store/actions/index';
+import {connect} from 'react-redux';
+import Spinner from '../../Components/UI/Spinner/Spinner';
 
 class Orders extends Component{
 
-    state={
-        orders:[],//where we have array of json orders from firebase
-        loading:true//if we loading order initially its true
-    }
-
-    componentDidMount(){//when component is mounted fetch orders
-        axios_instance_for_orders.get('/orders.json')
-        .then(res=>{
-                let orders_received=[];//it will contain array ofjson orders
-                for(let unique_key_from_firebase in res.data){//getting each order from res.data
-                    //res.data will contain json of multiple keys
-                    orders_received.push({
-                        ...res.data[unique_key_from_firebase],//spreadall key value pAIRS of each order
-                        id:unique_key_from_firebase
-                    })
-                }
-                this.setState({loading:false,orders:orders_received})//loading is false
-        })
-        .catch(error=>{
-            this.setState({loading:false})//if unable loaded
-    })
+    componentDidMount(){
+        this.props.onFetchOrders();
     }
 
     render(){
-        //console.log("passing",this.state.orders);
+        let orders=<Spinner/>;
+        if(!this.props.loading){
+            orders=this.props.orders.map(ord=>(//for each jsonorder in array of json
+                <Order 
+                    key={ord.id}//id property we initialised above is key
+                    ingredients={ord.ingredient}//pass ingredient
+                    price={ord.price}/>//passprice
+            ))
+        }
         return (
             <div>
-                {this.state.orders.map(ord=>(//for each jsonorder in array of json
-                    <Order 
-                        key={ord.id}//id property we initialised above is key
-                        ingredients={ord.ingredient}//pass ingredient
-                        price={ord.price}/>//passprice
-                ))}
+                {orders}
             </div>
         );
     }
 
 }
 
-export default WithErrorHandler(Orders,axios_instance_for_orders);
+
+
+const mapStateToProps=state=>{
+    return{
+        orders:state.orderReducing.orders,
+        loading:state.orderReducing.loading
+    }
+}
+
+
+const mapDispatchToProps=dispatch=>{
+    return{
+        onFetchOrders:()=>dispatch(actions.fetchOrders())
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(WithErrorHandler(Orders,axios_instance_for_orders));

@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import CheckoutSummary from '../../Components/Order/CheckoutSummary/CheckoutSummary';
-import {Route} from 'react-router-dom';//to show nested routes we need to have route
+import { Route, Redirect } from 'react-router-dom';//to show nested routes we need to have route
 import ContactData from './ContactData/ContactData';
 
 import {connect} from 'react-redux';
@@ -27,6 +27,7 @@ class Checkout extends Component{
     //     this.setState({ingredients:ingredients_from_url,totalPrice:price});//set dtate of ingredients and the price
     // }
 
+
     checkOutCancelledHandler=()=>{
             this.props.history.goBack();//go backto the main page 
     }
@@ -36,8 +37,12 @@ class Checkout extends Component{
     }
 
     render(){
+
+        const purchasedRedirect=this.props.purchased?<Redirect to="/"/>:null;
+        console.log("purchasedRedirect",purchasedRedirect)
         return (
             <div>
+                {purchasedRedirect}
                 <CheckoutSummary 
                 ingredients={this.props.ings} 
                 checkOutCancelled={this.checkOutCancelledHandler}
@@ -63,9 +68,11 @@ class Checkout extends Component{
 
 const mapStateToProps=state=>{
     return {
-        ings:state.ingredients
+        ings:state.burgerBuilderReducing.ingredients,
+        purchased:state.orderReducing.purchased
     }
 }
+
 
 
 export default connect(mapStateToProps)(Checkout);

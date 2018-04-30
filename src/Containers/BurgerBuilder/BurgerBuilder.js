@@ -8,7 +8,7 @@ import OrderSummary from '../../Components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../Components/UI/Spinner/Spinner';
 import WithErrorHandler from '../../higherordercomponent/WithErrorHandler';
 
-import * as  burgerBuilderActions from '../../store/actions/index';
+import * as  actions from '../../store/actions/index';
 import {connect} from 'react-redux';
 
 import axios_instance_for_orders from '../../axios_instance_for_orders';//use instance of 
@@ -94,6 +94,7 @@ class BurgerBuilder extends Component{
         //     pathname:'/checkout',
         //     search:'?'+queryParams.join('&')
         // })
+        this.props.onInitPurchase();
         this.props.history.push('/checkout');
         
     }
@@ -177,18 +178,19 @@ class BurgerBuilder extends Component{
 const matchStateToProps=state=>{
     console.log("matchstatetoprops")
     return {
-        ings:state.ingredients,
-        price:state.total_price,
-        error:state.error
+        ings:state.burgerBuilderReducing.ingredients,
+        price:state.burgerBuilderReducing.total_price,
+        error:state.burgerBuilderReducing.error
     };
 }
 
 const matchDispatchToProps=dispatch=>{
     console.log("matchdispatoprops")
     return {
-        onIngredientAdded: (ingName)=>dispatch(burgerBuilderActions.addIngredients(ingName)),
-        onIngredientRemoved: (ingName)=>dispatch(burgerBuilderActions.removeIngredients(ingName)),
-        onInitIngredients:()=>dispatch(burgerBuilderActions.initIngredients())
+        onIngredientAdded: (ingName)=>dispatch(actions.addIngredients(ingName)),
+        onIngredientRemoved: (ingName)=>dispatch(actions.removeIngredients(ingName)),
+        onInitIngredients:()=>dispatch(actions.initIngredients()),
+        onInitPurchase:()=>dispatch(actions.purchaseInit())
     };
 }
 

@@ -5,13 +5,14 @@ import axios_instance_for_orders from '../../../axios_instance_for_orders';
 import Spinner from '../../../Components/UI/Spinner/Spinner';
 import Input from '../../../Components/UI/Forms/Input/Input';
 import WithErrorHandler from '../../../higherordercomponent/WithErrorHandler';
+import * as actions from '../../../store/actions';//index file is taken by default having/index is optional
 
 
 import {connect}from 'react-redux';
 
 class ContactData extends Component{
     state={
-        loading:false,//initaially nothing is loaded from web
+        // loading:false,//initaially nothing is loaded from web
         alertMessage:null,//alert  message shown in form below
         buttonDisableStatus:true,//initaially button in form is not clickable
         //if all the valid becomes true than only the button is enabled
@@ -44,7 +45,7 @@ class ContactData extends Component{
                     valid:false,
                     minlength:1,
                     pattern:/^[a-zA-Z0-9\s]+$/,
-                    invalidMessage:"street should be only alphabets and number  & not empty"
+                    invalidMessage:"street should be only alphabets and number & not empty"
                 }
             },
             zipcode:{
@@ -103,7 +104,7 @@ class ContactData extends Component{
                     valid:true,
                     invalidMessage:null
                 },
-                value: ''
+                value: 'fastest'
             }
         }
     }
@@ -182,11 +183,11 @@ class ContactData extends Component{
     orderHandler=(event=>{
         event.preventDefault();//prevent submission of form 
 
-        this.setState((previousState,props)=>{
-            return {
-                loading:true//loading is false here so negated to true
-            }
-        })
+        // this.setState((previousState,props)=>{
+        //     return {
+        //         loading:true//loading is false here so negated to true
+        //     }
+        // })
 
 
 
@@ -205,26 +206,25 @@ class ContactData extends Component{
             submitFormData:formData//form data got
         }
 
+        this.props.onOrderBurger(order);
 
-
-
-        axios_instance_for_orders.post('/orders.json',order)//url appended to our base url received in axios
-        .then(response=>
-            {
-            this.setState((previousState,props)=>{
-                return {//this return is not returning ftom function but returning the changed state
-                    loading:false,//loading is true from above so negated to false again,
-                }
-            })
-            //it is able to get history props even we dont directly route this component to
-            //Route Component but we use Route render
-            this.props.history.push('/');//going back to main page
-        })
-        .catch(error=>this.setState((previousState,props)=>{
-            return {
-                loading:false,//loading is true from above so negated to false again
-            }
-        }))
+        // axios_instance_for_orders.post('/orders.json',order)//url appended to our base url received in axios
+        // .then(response=>
+        //     {
+        //     this.setState((previousState,props)=>{
+        //         return {//this return is not returning ftom function but returning the changed state
+        //             loading:false,//loading is true from above so negated to false again,
+        //         }
+        //     })
+        //     //it is able to get history props even we dont directly route this component to
+        //     //Route Component but we use Route render
+        //     this.props.history.push('/');//going back to main page
+        // })
+        // .catch(error=>this.setState((previousState,props)=>{
+        //     return {
+        //         loading:false,//loading is true from above so negated to false again
+        //     }
+        // }))
 
     })
 
@@ -275,7 +275,7 @@ class ContactData extends Component{
         );
 
 
-        if(this.state.loading)
+        if(this.props.loading)
             form=<Spinner/>;
 
         return (
@@ -289,10 +289,18 @@ class ContactData extends Component{
 
 
 const mapStateToProps=state=>{
+    console.log(state.orderReducing)
     return {
-        ings:state.ingredients,
-        price:state.total_price
+        ings:state.burgerBuilderReducing.ingredients,
+        price:state.burgerBuilderReducing.total_price,
+        loading:state.orderReducing.loading
     }
 }
 
-export default connect(mapStateToProps)(WithErrorHandler(ContactData,axios_instance_for_orders));
+const mapDispatchToProps=dispatch=>{
+    return {
+        onOrderBurger:(orderData)=>dispatch(actions.purchaseBurger(orderData))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(WithErrorHandler(ContactData,axios_instance_for_orders));

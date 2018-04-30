@@ -6,8 +6,10 @@ import {BrowserRouter,Route,Switch} from 'react-router-dom';
 import Orders from './Containers/Orders/Orders';
 import {Provider} from 'react-redux';
 import reducer from './store/reducers/burgerBuilder';
-import { createStore, applyMiddleware ,compose } from 'redux';
+import { createStore, applyMiddleware ,compose ,combineReducers } from 'redux';
 import thunk from 'redux-thunk';
+import burgerBuilderReducer from './store/reducers/burgerBuilder';
+import orderReducer from './store/reducers/order';
 
 
 class App extends Component {
@@ -15,8 +17,13 @@ class App extends Component {
   render() {
 
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    
+    let rootReducer=combineReducers({
+      burgerBuilderReducing:burgerBuilderReducer,
+      orderReducing:orderReducer
+    })
 
-    const store=createStore(reducer, composeEnhancers(
+    const store=createStore(rootReducer, composeEnhancers(
       applyMiddleware(thunk)
     ));
 

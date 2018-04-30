@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios_instance_for_orders from '../../axios_instance_for_orders';//use instance of 
+import { purchaseBurgerStart } from './order';
 //axios for sending http request to our fire base server
 
 export const addIngredients=(ingname)=>{
@@ -34,9 +35,10 @@ export const fetchIngredientsFailed=()=>{
 export const initIngredients=()=>{
     return dispatch =>{
 
-        axios_instance_for_orders.get('/ingredients.json')//getting data from 
-        //firebase backend 
+
+        axios_instance_for_orders.get('/ingredients.json')//getting data from firebase backend 
         .then(response=>{//response object from firebase has data property
+            console.log("data fetching from server",response.data);
             dispatch(setIngredients(response.data));
             //console.log(this.state.ingredients);
             //     //now price is updated

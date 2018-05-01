@@ -26,13 +26,13 @@ export const purchaseBurgerStart= () =>{
     };
 };
 
-export const purchaseBurger=(orderData)=>{
+export const purchaseBurger=(orderData,token)=>{
 
 
     return dispatch=>{
         dispatch(purchaseBurgerStart());
 
-        axios_instance_for_orders.post('/orders.json',orderData)//url appended to our base url received in axios
+        axios_instance_for_orders.post('/orders.json?auth='+token,orderData)//url appended to our base url received in axios
         .then(response=>
             {
             // this.setState((previousState,props)=>{
@@ -92,13 +92,13 @@ export const fetchOrdersStart=()=>{
 
 }
 
-export const fetchOrders=()=>{
+export const fetchOrders=(token)=>{
 
     return dispatch=>{
 
         dispatch(fetchOrdersStart());
 
-        axios_instance_for_orders.get('/orders.json')
+        axios_instance_for_orders.get('/orders.json?auth='+token)
         .then(res=>{
                 let orders_received=[];//it will contain array ofjson orders
                 for(let unique_key_from_firebase in res.data){//getting each order from res.data

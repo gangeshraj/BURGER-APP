@@ -1,8 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import {objectDeepCopy } from '../objectDeepCopy';
 
-
-
 //global pricing of burger ingredients
 const INGREDIENT_PRICE={
     salad:1.2,

@@ -14,7 +14,7 @@ const toolbar=(props)=>(
         {/* display them only when desktop else not show*/}
         <nav className={Classes.Desktoponly}>
             {/* list of items to be shown in navigationitems component */}
-            <Navigationitems/>
+            <Navigationitems isAuthenticated={props.isAuth}/>
         </nav>
     </header>
 

@@ -6,8 +6,6 @@ import Spinner from '../../../Components/UI/Spinner/Spinner';
 import Input from '../../../Components/UI/Forms/Input/Input';
 import WithErrorHandler from '../../../higherordercomponent/WithErrorHandler';
 import * as actions from '../../../store/actions';//index file is taken by default having/index is optional
-
-
 import {connect}from 'react-redux';
 
 class ContactData extends Component{
@@ -73,7 +71,7 @@ class ContactData extends Component{
                     valid:false,
                     minlength:1,
                     pattern:/^[a-zA-Z\s]+$/,
-                    invlidMessage:"Country should be only alphabets"
+                    invalidMessage:"Country should be only alphabets"
                 }
             },
             email:{
@@ -305,3 +303,4 @@ const mapDispatchToProps=dispatch=>{
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(WithErrorHandler(ContactData,axios_instance_for_orders));
+

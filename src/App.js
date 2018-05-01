@@ -11,7 +11,7 @@ import burgerBuilderReducer from './store/reducers/burgerBuilder';
 import orderReducer from './store/reducers/order';
 import authReducer from './store/reducers/auth';
 import Authorization  from './Containers/Auth/Auth'
-
+import Logout  from './Containers/Auth/Logout/Logout'
 
 class App extends Component {
 
@@ -40,6 +40,7 @@ class App extends Component {
               <Route path="/orders" component={Orders}/>
               <Route path="/checkout" component={Checkout}/>
               <Route path="/auth" component={Authorization}/>
+              <Route path="/logout" component={Logout}/>
               <Route path="/" exact component={BurgerBuilder}/>
               {/* the above component is responsible for burger  */}
             </Switch>

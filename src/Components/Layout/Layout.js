@@ -3,6 +3,7 @@ import Auxillary from '../../higherordercomponent/Auxillary';
 import Classes from './Layout.css';
 import Toolbar from '../UI/Navigation/Toolbar/Toolbar';
 import Sidedrawer from '../UI/Navigation/Sidedrawer/Sidedrawer';
+import { connect } from 'react-redux';
 
 class Layout extends Component{
 
@@ -37,14 +38,18 @@ class Layout extends Component{
 
     render(){
 
+        console.log("inside render",this.props.isAuthenticated);
         return(
             <Auxillary>
                 {/* shows toolbar which has menu component which has 
                 three horizontal line on which if we click we get sidebar*/}
-                <Toolbar toggleClickHandler={this.MenuOnToolbarTogglingSideBar}/>
+                <Toolbar 
+                    isAuth={this.props.isAuthenticated}
+                    toggleClickHandler={this.MenuOnToolbarTogglingSideBar}/>
                 {/* showstaus tell sidebar to be seen or not seen
                 closed make showstatus false or make sidedrawer invisible */}
                 <Sidedrawer 
+                    isAuth={this.props.isAuthenticated}
                     showstatus={this.state.sidedrawervisible} 
                     closed={this.sideDrawerClosedHandler}/>
 
@@ -65,4 +70,15 @@ class Layout extends Component{
     }    
 }
 
-export default Layout;
+
+const mapStateToProps=state=>{
+
+    console.log("what is the state",state.authReducing);
+
+    return {
+        isAuthenticated:state.authReducing.token!==null
+    }
+
+}
+
+export default connect(mapStateToProps)(Layout);

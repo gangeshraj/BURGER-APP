@@ -30,8 +30,14 @@ class BurgerBuilder extends Component{
         }
     }
 
-    openModel=()=>{//it opens modal
-        this.setState({purchasing:true});
+    openModel=()=>{
+        if(this.props.isAuthenticated){
+            //it opens modal
+            this.setState({purchasing:true});
+        }
+        else{
+            this.props.history.push('/auth');
+        }
     }
 
     addIngredientHandler=(type)=>{//type is passed of ingredient
@@ -143,6 +149,7 @@ class BurgerBuilder extends Component{
                         price={this.props.price}
                         purchasable={this.updatePurchaseState(this.props.ings)}
                         ordered={this.openModel}
+                        isAuth={this.props.isAuthenticated}
                     />
                     </Auxillary>
                     );
@@ -180,7 +187,8 @@ const matchStateToProps=state=>{
     return {
         ings:state.burgerBuilderReducing.ingredients,
         price:state.burgerBuilderReducing.total_price,
-        error:state.burgerBuilderReducing.error
+        error:state.burgerBuilderReducing.error,
+        isAuthenticated:!!state.authReducing.token
     };
 }
 

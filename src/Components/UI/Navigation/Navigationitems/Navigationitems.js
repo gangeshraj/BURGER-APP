@@ -9,9 +9,9 @@ const navigationitems =(props)=>(//list of navigation items seen at right side t
         <Navigationitem link="/" exact>
             Burger Builder
         </Navigationitem >
-        <Navigationitem link="/orders">
+        {props.isAuthenticated?<Navigationitem link="/orders">
             Orders
-        </Navigationitem>
+        </Navigationitem>:null}
         {!props.isAuthenticated
             ?<Navigationitem link="/auth">Authenticate</Navigationitem>
             :<Navigationitem link="/logout">LOG out</Navigationitem>

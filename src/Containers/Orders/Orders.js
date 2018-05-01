@@ -5,6 +5,7 @@ import WithErrorHandler from '../../higherordercomponent/WithErrorHandler';
 import * as actions from '../../store/actions/index';
 import {connect} from 'react-redux';
 import Spinner from '../../Components/UI/Spinner/Spinner';
+import {withRouter} from 'react-router-dom';
 
 class Orders extends Component{
 
@@ -48,4 +49,4 @@ const mapDispatchToProps=dispatch=>{
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(WithErrorHandler(Orders,axios_instance_for_orders));
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(WithErrorHandler(Orders,axios_instance_for_orders)));

@@ -4,6 +4,7 @@ import Classes from './Layout.css';
 import Toolbar from '../UI/Navigation/Toolbar/Toolbar';
 import Sidedrawer from '../UI/Navigation/Sidedrawer/Sidedrawer';
 import { connect } from 'react-redux';
+import {withRouter} from 'react-router-dom';
 
 class Layout extends Component{
 
@@ -81,4 +82,4 @@ const mapStateToProps=state=>{
 
 }
 
-export default connect(mapStateToProps)(Layout);
+export default withRouter(connect(mapStateToProps)(Layout));

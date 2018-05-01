@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import CheckoutSummary from '../../Components/Order/CheckoutSummary/CheckoutSummary';
-import { Route, Redirect } from 'react-router-dom';//to show nested routes we need to have route
+import { Route, Redirect ,withRouter } from 'react-router-dom';//to show nested routes we need to have route
 import ContactData from './ContactData/ContactData';
 
 import {connect} from 'react-redux';
@@ -75,4 +75,4 @@ const mapStateToProps=state=>{
 
 
 
-export default connect(mapStateToProps)(Checkout);
+export default withRouter(connect(mapStateToProps)(Checkout));

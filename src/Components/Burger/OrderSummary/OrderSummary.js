@@ -10,7 +10,7 @@ class OrderSummary extends Component{
         //"show" props changes as shouldComponentUpdate checks it
         //for updating this is done because order summary is to be updated 
         //when it is to be shown else unnecessary update takes down efficiency
-        console.log("order summaryt will update");
+        //console.log("order summaryt will update");
     }
 
 

@@ -39,7 +39,7 @@ class Checkout extends Component{
     render(){
 
         const purchasedRedirect=this.props.purchased?<Redirect to="/"/>:null;
-        console.log("purchasedRedirect",purchasedRedirect)
+        //console.log("purchasedRedirect",purchasedRedirect)
         return (
             <div>
                 {purchasedRedirect}

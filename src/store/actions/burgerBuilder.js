@@ -8,7 +8,7 @@ export const addIngredients=(ingname)=>{
         type: actionTypes.ADD_INGREDIENTS,
         ingredientName:ingname 
     }
-    console.log('updating',updatedState);
+    //console.log('updating',updatedState);
     return updatedState;
 }
 
@@ -38,9 +38,9 @@ export const initIngredients=()=>{
 
         axios_instance_for_orders.get('/ingredients.json')//getting data from firebase backend 
         .then(response=>{//response object from firebase has data property
-            console.log("data fetching from server",response.data);
+            //console.log("data fetching from server",response.data);
             dispatch(setIngredients(response.data));
-            //console.log(this.state.ingredients);
+            ////console.log(this.state.ingredients);
             //     //now price is updated
             //     let updated_price=this.state.total_price+(this.state.ingredients.salad*INGREDINT_PRICE.salad)
             //     +(this.state.ingredients.cheese*INGREDINT_PRICE.cheese)

@@ -110,7 +110,7 @@ class ContactData extends Component{
 
     checkValidity=(value,validation)=>{//check validity of the input value from form
         value=String(value).trim()//remove white space from beg and end
-        //console.log("checking equality",validation.pattern.test(String(value).toLowerCase()))
+        ////.log("checking equality",validation.pattern.test(String(value).toLowerCase()))
         if(value.length>=validation.minlength)
             return true && validation.pattern.test((value).toLowerCase());
         return false;
@@ -122,8 +122,8 @@ class ContactData extends Component{
     //for code changed={(event)=>this.inputChangeHandler(event,formElement.id)}
     inputChangeHandler=(event,inputIdentifier)=>{
         //alert("ok");
-        // console.log("I am the inputIdentifier not event",event);
-        // console.log("I am event not inputIdentifier",inputIdentifier);
+        // //.log("I am the inputIdentifier not event",event);
+        // //.log("I am event not inputIdentifier",inputIdentifier);
         
         let orderFormDeepCopy={//deeply copying order form
             //but it has also nested json so gain weneed to deeply copy its 
@@ -131,34 +131,34 @@ class ContactData extends Component{
             ...this.state.orderForm
         }
 
-        //console.log("updatedorderformDeepCopy",orderFormDeepCopy===this.state.orderForm)
+        ////.log("updatedorderformDeepCopy",orderFormDeepCopy===this.state.orderForm)
 
         let formElementDeepCopy={//again this deeply copying is done because this.state.order form
             //is having nested json from the above code the this.state.orderForm key value
             //is deeply copied
             ...orderFormDeepCopy[event]//dont be confused event is acting as identifying the input type
         }
-        //console.log("formElementDeepCopy",formElementDeepCopy,formElementDeepCopy===this.state.orderForm[event])
+        ////.log("formElementDeepCopy",formElementDeepCopy,formElementDeepCopy===this.state.orderForm[event])
 
-        //console.log("able to spread",formElementDeepCopy.validation);
+        ////.log("able to spread",formElementDeepCopy.validation);
         let validationDeepcopy={// again it is nested so deepy copying
             //as I want validation in state should not be updated
             ...formElementDeepCopy.validation
         }
-        //console.log("validationDeepCopy",validationDeepcopy)
+        ////.log("validationDeepCopy",validationDeepcopy)
         
 
         //the value is updated as user enters the data
         formElementDeepCopy.value=inputIdentifier.target.value;//here inputIdentifier is acting as event
 
-        //console.log("sending",formElementDeepCopy.value,validationDeepcopy);
+        ////.log("sending",formElementDeepCopy.value,validationDeepcopy);
 
         //check validity of users inputted value as with the value entered by user as first argument
         //and deep copied object of validation{} object from state
         validationDeepcopy.valid=this.checkValidity(formElementDeepCopy.value,validationDeepcopy);
 
 
-        //console.log("wgy",validationDeepcopy.valid);
+        ////.log("wgy",validationDeepcopy.valid);
         if(validationDeepcopy.valid===false){
             //since it is invalid populate its invalidMessage
             this.setState({alertMessage:validationDeepcopy.invalidMessage})
@@ -173,7 +173,7 @@ class ContactData extends Component{
         orderFormDeepCopy[event]=formElementDeepCopy;
         //now update original state
         this.setState({orderForm:orderFormDeepCopy});
-        //console.log(this.state.orderForm)
+        ////.log(this.state.orderForm)
 
     }
 
@@ -201,7 +201,8 @@ class ContactData extends Component{
         const order={//populating dummy data for sendingto firebase server
             ingredient:this.props.ings,//burgeringredients
             price:this.props.price,//its price
-            submitFormData:formData//form data got
+            submitFormData:formData,//form data got,
+            userId:this.props.userId
         }
 
         this.props.onOrderBurger(order,this.props.token);
@@ -287,12 +288,13 @@ class ContactData extends Component{
 
 
 const mapStateToProps=state=>{
-    console.log(state.orderReducing)
+    //console.log(state.orderReducing)
     return {
         ings:state.burgerBuilderReducing.ingredients,
         price:state.burgerBuilderReducing.total_price,
         loading:state.orderReducing.loading,
-        token:state.authReducing.token
+        token:state.authReducing.token,
+        userId:state.authReducing.userId
     }
 }
 

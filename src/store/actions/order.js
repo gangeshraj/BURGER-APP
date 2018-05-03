@@ -92,13 +92,14 @@ export const fetchOrdersStart=()=>{
 
 }
 
-export const fetchOrders=(token)=>{
+export const fetchOrders=(token,userId)=>{
 
     return dispatch=>{
 
         dispatch(fetchOrdersStart());
 
-        axios_instance_for_orders.get('/orders.json?auth='+token)
+        const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
+        axios_instance_for_orders.get( '/orders.json' + queryParams)
         .then(res=>{
                 let orders_received=[];//it will contain array ofjson orders
                 for(let unique_key_from_firebase in res.data){//getting each order from res.data

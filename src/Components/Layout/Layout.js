@@ -13,12 +13,12 @@ class Layout extends Component{
         this.state={
             sidedrawervisible:false
         }
-        console.log("in constructor",this.props);
+        //console.log("in constructor",this.props);
     }
 
     sideDrawerClosedHandler=()=>{
         this.setState((prevstate,props)=>{
-            //console.log("props",this.props===props);
+            ////console.log("props",this.props===props);
             return {
                 sidedrawervisible:false
             }
@@ -29,7 +29,7 @@ class Layout extends Component{
     MenuOnToolbarTogglingSideBar=()=>{
 
         this.setState((prevstate,props)=>{
-            //console.log("props",this.props===props);
+            ////console.log("props",this.props===props);
             return {
                 sidedrawervisible:!prevstate.sidedrawervisible
             }
@@ -39,7 +39,7 @@ class Layout extends Component{
 
     render(){
 
-        console.log("inside render",this.props.isAuthenticated);
+        //console.log("inside render",this.props.isAuthenticated);
         return(
             <Auxillary>
                 {/* shows toolbar which has menu component which has 
@@ -74,7 +74,7 @@ class Layout extends Component{
 
 const mapStateToProps=state=>{
 
-    console.log("what is the state",state.authReducing);
+    //console.log("what is the state",state.authReducing);
 
     return {
         isAuthenticated:state.authReducing.token!==null

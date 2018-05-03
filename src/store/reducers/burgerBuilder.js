@@ -19,15 +19,16 @@ const initial_state={
     },
     total_price:4,//base price which is always 4 without any ingredients 
     //and it have theprice of the whole burger,
-    error:false
+    error:false,
+    building:false
 };
 
 
 const reducer=(state=initial_state,action)=>{
-    console.log("in reducer");
+    //console.log("in reducer");
     switch(action.type){
             case actionTypes.ADD_INGREDIENTS:
-                console.log("here receiving",action.ingredientName);
+                //console.log("here receiving",action.ingredientName);
                 return {
                     ...state,
                     ingredients:{
@@ -37,7 +38,8 @@ const reducer=(state=initial_state,action)=>{
                         //special syntax
                         [action.ingredientName]:state.ingredients[action.ingredientName]+1
                     },
-                    total_price:state.total_price+INGREDIENT_PRICE[action.ingredientName]
+                    total_price:state.total_price+INGREDIENT_PRICE[action.ingredientName],
+                    building:true
                 };
             case actionTypes.REMOVE_INGREDIENTS:
                 // using object deep copying function
@@ -57,7 +59,8 @@ const reducer=(state=initial_state,action)=>{
                         //special syntax
                         [action.ingredientName]:state.ingredients[action.ingredientName]-1
                     },
-                    total_price:state.total_price-INGREDIENT_PRICE[action.ingredientName]
+                    total_price:state.total_price-INGREDIENT_PRICE[action.ingredientName],
+                    building:true
                     };
             case actionTypes.SET_INGREDIENTS:
 
@@ -69,7 +72,7 @@ const reducer=(state=initial_state,action)=>{
                 },0)
 
                 updated_price=updated_price+4;
-                console.log("updated price",updated_price);
+                //console.log("updated price",updated_price);
                 return {
                     ...state,
                     ingredients:action.ingredients,
@@ -79,7 +82,8 @@ const reducer=(state=initial_state,action)=>{
                     // //special syntax
                     // [action.ingredientName]:state.ingredients[action.ingredientName]-1,
                     total_price:updated_price,
-                    error:false
+                    error:false,
+                    building:false
                 };
             case actionTypes.FETCH_INGREDIENTS_FAILED:
                 return {

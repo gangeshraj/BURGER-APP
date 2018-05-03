@@ -10,7 +10,7 @@ import WithErrorHandler from '../../higherordercomponent/WithErrorHandler';
 
 import * as  actions from '../../store/actions/index';
 import {connect} from 'react-redux';
-
+import {withRouter} from 'react-router-dom';
 import axios_instance_for_orders from '../../axios_instance_for_orders';//use instance of 
 //axios for sending http request to our fire base server
 
@@ -31,11 +31,13 @@ class BurgerBuilder extends Component{
     }
 
     openModel=()=>{
+        console.log("setting");
         if(this.props.isAuthenticated){
             //it opens modal
             this.setState({purchasing:true});
         }
         else{
+            this.props.onSetAuthRedirectPath('/checkout');
             this.props.history.push('/auth');
         }
     }
@@ -80,7 +82,7 @@ class BurgerBuilder extends Component{
                   .reduce((sum,elem)=>{//reduce function where elem is passed from map "ingredients[key]"
                       return sum+elem;//sum is the final value to be returned
                   },0);// 0 is the initial value of sum
-        console.log("this is the sum",sum);
+        //console.log("this is the sum",sum);
         return sum>0;
 
     }
@@ -107,17 +109,13 @@ class BurgerBuilder extends Component{
 
 
     componentDidMount(){
-        console.log("component mouted",this.props.ings);
+        //console.log("component mouted",this.props.ings);
         this.props.onInitIngredients();
     }
     
 
-
-
-
-    
     render(){
-        console.log("inside render",this.props.ings);
+        //console.log("inside render",this.props.ings);
 
         const disabledInfo={//a copy of ingredients object
             ...this.props.ings
@@ -183,7 +181,7 @@ class BurgerBuilder extends Component{
 }
 
 const matchStateToProps=state=>{
-    console.log("matchstatetoprops")
+    //console.log("matchstatetoprops")
     return {
         ings:state.burgerBuilderReducing.ingredients,
         price:state.burgerBuilderReducing.total_price,
@@ -193,12 +191,13 @@ const matchStateToProps=state=>{
 }
 
 const matchDispatchToProps=dispatch=>{
-    console.log("matchdispatoprops")
+    //console.log("matchdispatoprops")
     return {
         onIngredientAdded: (ingName)=>dispatch(actions.addIngredients(ingName)),
         onIngredientRemoved: (ingName)=>dispatch(actions.removeIngredients(ingName)),
         onInitIngredients:()=>dispatch(actions.initIngredients()),
-        onInitPurchase:()=>dispatch(actions.purchaseInit())
+        onInitPurchase:()=>dispatch(actions.purchaseInit()),
+        onSetAuthRedirectPath:(path)=>{dispatch(actions.setAuthRedirectPath(path))}
     };
 }
 
@@ -206,4 +205,5 @@ const matchDispatchToProps=dispatch=>{
 // wrapped in high order component so as to show error using modal component
 // this is very optimal way now we can use any component which uses axios to 
 // have high order component WithErrorHandler wrappping it
-export default connect(matchStateToProps,matchDispatchToProps)(WithErrorHandler(BurgerBuilder,axios_instance_for_orders));
+export default withRouter(connect(matchStateToProps,matchDispatchToProps)
+            (WithErrorHandler(BurgerBuilder,axios_instance_for_orders)));

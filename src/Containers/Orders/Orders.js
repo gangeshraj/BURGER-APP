@@ -10,7 +10,7 @@ import {withRouter} from 'react-router-dom';
 class Orders extends Component{
 
     componentDidMount(){
-        this.props.onFetchOrders(this.props.token);
+        this.props.onFetchOrders(this.props.token,this.props.userId);
     }
 
     render(){
@@ -38,14 +38,15 @@ const mapStateToProps=state=>{
     return{
         orders:state.orderReducing.orders,
         loading:state.orderReducing.loading,
-        token:state.authReducing.token
+        token:state.authReducing.token,
+        userId:state.authReducing.userId
     }
 }
 
 
 const mapDispatchToProps=dispatch=>{
     return{
-        onFetchOrders:( token)=>dispatch(actions.fetchOrders(token))
+        onFetchOrders:( token,userId)=>dispatch(actions.fetchOrders(token,userId))
     }
 }
 

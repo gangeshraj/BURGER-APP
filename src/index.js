@@ -12,7 +12,10 @@ import burgerBuilderReducer from './store/reducers/burgerBuilder';
 import orderReducer from './store/reducers/order';
 import authReducer from './store/reducers/auth';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+//process is globally present we are using environment variable to have
+const composeEnhancers = process.env.NODE_ENV === 'development' ? // redux dev tool only when in development mode
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null|| compose;
 
 const rootReducer = combineReducers({
     burgerBuilderReducing: burgerBuilderReducer,

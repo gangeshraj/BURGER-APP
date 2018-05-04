@@ -34,7 +34,7 @@ const authLogout = (state, action) => {
 };
 
 const setAuthRedirectPath=(state,action)=>{
-    console.log("reaching final time",action.path)
+    //console.log("reaching final time",action.path)
     return objectDeepCopy(state,{authRedirectPath: action.path})
 }
 

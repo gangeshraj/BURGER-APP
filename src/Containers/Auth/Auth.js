@@ -132,8 +132,11 @@ class Auth extends Component {
 
         let errorMessage = null;
         if (this.props.error) {
+            console.log("error in compo",this.props.error);
             errorMessage = (
-                <p>{this.props.error.message}</p>
+                <p style={{color:"red"}}>
+                    {this.props.error.message}
+                </p>
             );
         }
 

@@ -1,13 +1,27 @@
 import React, { Component } from 'react';
 import Layout from './Components/Layout/Layout'
 import BurgerBuilder from './Containers/BurgerBuilder/BurgerBuilder'
-import Checkout from './Containers/Checkout/Checkout';
+// import Checkout from './Containers/Checkout/Checkout';
 import {Route,Switch,withRouter,Redirect} from 'react-router-dom';
-import Orders from './Containers/Orders/Orders';
+// import Orders from './Containers/Orders/Orders';
 import {connect} from 'react-redux';
-import Authorization  from './Containers/Auth/Auth';
+// import Authorization  from './Containers/Auth/Auth';
 import Logout  from './Containers/Auth/Logout/Logout';
 import * as actions from './store/actions/index';
+import asyncComponent from './higherordercomponent/asyncComponent';
+
+
+const asyncCheckout=asyncComponent(()=>{
+    return import ('./Containers/Checkout/Checkout');
+})
+
+const asyncOrders=asyncComponent(()=>{
+    return import ('./Containers/Orders/Orders');
+})
+
+const asyncAuth=asyncComponent(()=>{
+    return import ('./Containers/Auth/Auth');
+})
 
 class App extends Component {
 
@@ -19,7 +33,7 @@ class App extends Component {
 
     let routes=(
         <Switch>
-              <Route path="/auth" component={Authorization}/>
+              <Route path="/auth" component={asyncAuth}/>
               <Route path="/" exact component={BurgerBuilder}/>
               <Redirect to="/" />
         </Switch>
@@ -29,10 +43,10 @@ class App extends Component {
         {
             routes=(
               <Switch>
-                  <Route path="/orders" component={Orders}/>
-                  <Route path="/checkout" component={Checkout}/>
+                  <Route path="/orders" component={asyncOrders}/>
+                  <Route path="/checkout" component={asyncCheckout}/>
                   <Route path="/logout" component={Logout}/>
-                  <Route path="/auth" component={Authorization}/>
+                  <Route path="/auth" component={asyncAuth}/>
                   <Route path="/" exact component={BurgerBuilder}/>
                   <Redirect to="/" />
                   {/* the above component is responsible for burger  */}

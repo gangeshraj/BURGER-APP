@@ -17,6 +17,7 @@ export const authSuccess = (token, localId) => {
 };
 
 export const authFail = (error) => {
+    console.log("getting error",error);
     return {
         type: actionTypes.AUTH_FAIL,
         error: error
@@ -64,7 +65,12 @@ export const auth = (email, password, isSignup) => {
                 dispatch(checkAuthTimeout(response.data.expiresIn));
             })
             .catch(err => {
+                console.log("the error",err);
                 dispatch(authFail(err.response.data.error));
+            })
+            .catch(err=>{
+                err.message="Some error occured check internet connection";
+                dispatch(authFail(err));
             });
     };
 };

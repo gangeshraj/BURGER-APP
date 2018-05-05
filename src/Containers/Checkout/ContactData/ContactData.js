@@ -36,14 +36,14 @@ class ContactData extends Component{
                 elementType: 'input',
                 elementConfig:{
                     type:'text',
-                    placeholder:'Street'
+                    placeholder:'Address'
                 },
                 value: '',
                 validation:{
                     valid:false,
-                    minlength:1,
+                    minlength:10,
                     pattern:/^[a-zA-Z0-9\s]+$/,
-                    invalidMessage:"street should be only alphabets and number & not empty"
+                    invalidMessage:"Address should be only alphabets and number & min 10 characters"
                 }
             },
             zipcode:{
@@ -55,9 +55,9 @@ class ContactData extends Component{
                 value: '',
                 validation:{
                     valid:false,
-                    minlength:1,
+                    minlength:6,
                     pattern:/^[0-9\s]+$/,
-                    invalidMessage:"Zip code should be only number & not empty"
+                    invalidMessage:"Zip code should be only number & minimum 6 digits"
                 }
             },
             country:{

@@ -17,7 +17,7 @@ import axios_instance_for_orders from '../../axios_instance_for_orders';//use in
 
 
 
-class BurgerBuilder extends Component{
+export class BurgerBuilder extends Component{
     
     constructor(props){
         super(props);

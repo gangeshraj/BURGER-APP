@@ -1,4 +1,4 @@
-export {
+export {//export all the actions needed in coponents
     addIngredients,
     removeIngredients,
     initIngredients

@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import { objectDeepCopy } from '../objectDeepCopy';
 
-const initialState = {
+const initialState = {//initial state
     token: null,
     userId: null,
     error: null,
@@ -9,14 +9,14 @@ const initialState = {
     authRedirectPath:"/"
 };
 
-const authStart = ( state, action ) => {
+const authStart = ( state, action ) => {//deep copy of objects
     return objectDeepCopy( state, { error: null, loading: true } );
 };
 
 const authSuccess = (state, action) => {
     return objectDeepCopy( state, { 
-        token: action.idToken,
-        userId: action.userId,
+        token: action.idToken,//getting token from firebase
+        userId: action.userId,//getting local idfromm firebase
         error: null,
         loading: false
      } );
@@ -34,7 +34,6 @@ const authLogout = (state, action) => {
 };
 
 const setAuthRedirectPath=(state,action)=>{
-    //console.log("reaching final time",action.path)
     return objectDeepCopy(state,{authRedirectPath: action.path})
 }
 

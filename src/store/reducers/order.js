@@ -1,14 +1,16 @@
+
 import * as actionTypes from '../actions/actionTypes';
 
-const initialState={
+const initialState={//initial state status
     orders:[],
     loading:false,
     purchased:false
 }
 
+//if state is not given initial state taken by default
 const reducer=(state=initialState,action)=>{
     switch(action.type){
-        case actionTypes.PURCHASE_INIT:
+        case actionTypes.PURCHASE_INIT://if purchasing started purchased is initial false
             return {
                 ...state,
                 purchased:false
@@ -16,28 +18,28 @@ const reducer=(state=initialState,action)=>{
         case actionTypes.PURCHASE_BURGER_START:
             return {
                 ...state,
-                loading:true
+                loading:true//trueas started async action
             }
-        case actionTypes.PURCHASE_BURGER_SUCCESS:
-            const newOrder={
+        case actionTypes.PURCHASE_BURGER_SUCCESS://received data from frebase backend successfully
+            const newOrder={//get data from action whichreceivesfrom firebase
                 ...action.orderData,
                 id:action.orderId
             }
             return {
                 ...state,
-                loading:false,
-                purchased:true,
-                orders:state.orders.concat(newOrder)
+                loading:false,//now loading is falseremoves spinner
+                purchased:true,//yes burger is in purchasing statu now
+                orders:state.orders.concat(newOrder)//concat creates a deep copy of array in javascript
             };
         case actionTypes.PURCHASE_BURGER_FAIL:
-            return {
+            return {//receiving data from firebasewas not successful
                 ...state,
-                loading:false,
+                loading:false,//loading is still false
             };
         case actionTypes.FETCH_ORDERS_START:
             return {
-                ...state,
-                loading:true
+                ...state,//async action
+                loading:true//fetching data from fire base started
             }
         case actionTypes.FETCH_ORDERS_SUCCESS:
             return {

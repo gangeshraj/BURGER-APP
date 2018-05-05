@@ -29,10 +29,11 @@ export const purchaseBurgerStart= () =>{
 export const purchaseBurger=(orderData,token)=>{
 
 
-    return dispatch=>{
+    return dispatch=>{//redux-thunk helps us to runasync actions
         dispatch(purchaseBurgerStart());
 
-        axios_instance_for_orders.post('/orders.json?auth='+token,orderData)//url appended to our base url received in axios
+        axios_instance_for_orders.post('/orders.json?auth='+token,orderData)
+        //url appended to our base url received in axios
         .then(response=>
             {
             // this.setState((previousState,props)=>{
@@ -97,8 +98,9 @@ export const fetchOrders=(token,userId)=>{
     return dispatch=>{
 
         dispatch(fetchOrdersStart());
-
+        //code to filter orders according user id in firebase one rule is added indexof
         const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
+        //base url in axios_instance_......
         axios_instance_for_orders.get( '/orders.json' + queryParams)
         .then(res=>{
                 let orders_received=[];//it will contain array ofjson orders

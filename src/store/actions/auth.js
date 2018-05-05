@@ -41,34 +41,37 @@ export const checkAuthTimeout = (expirationTime) => {
     };
 };
 
-export const auth = (email, password, isSignup) => {
+export const auth = (email, password, isSignup) => {//action creators forsignin sign ip
     return dispatch => {
-        dispatch(authStart());
+        dispatch(authStart());//invioke authorization started
         const authData = {
             email: email,
             password: password,
             returnSecureToken: true
         };
+        //url for sign up
         let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyDjU-5vRMStPrZL1jy6bhy49Z2nQv6ztoM';
-        if (!isSignup) {
+        if (!isSignup) {//url forsign in
             url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyDjU-5vRMStPrZL1jy6bhy49Z2nQv6ztoM';
         }
-        axios.post(url, authData)
+        axios.post(url, authData)//sign up or sign in
             .then(response => {
-                //console.log(response);
+                //date nd time 1 hour from response to logout
                 const expirationDate=new Date(new Date().getTime()+response.data.expiresIn*1000)
-                console.log(expirationDate)
+                //set local storage of browser
                 localStorage.setItem("token",response.data.idToken);
                 localStorage.setItem("localId",response.data.localId);
                 localStorage.setItem("expirationDate",expirationDate);
+
+                //executing auth success dispatcher
                 dispatch(authSuccess(response.data.idToken, response.data.localId));
+                //dispatch invoke logging out after the time receivedin firebasein nos like '3600' sec
                 dispatch(checkAuthTimeout(response.data.expiresIn));
             })
-            .catch(err => {
-                console.log("the error",err);
+            .catch(err => {//error receiving response from firebase
                 dispatch(authFail(err.response.data.error));
             })
-            .catch(err=>{
+            .catch(err=>{//if not receivedfrom firebase app will crash
                 err.message="Some error occured check internet connection";
                 dispatch(authFail(err));
             });
@@ -77,14 +80,14 @@ export const auth = (email, password, isSignup) => {
 
 
 export const setAuthRedirectPath=(path)=>{
-    console.log("reaching here setting routingpath",path);
+    //console.log("reaching here setting routingpath",path);
     return {
         type:actionTypes.SET_AUTH_REDIRECT_PATH,
         path:path
     }
 }
 
-export const authCheckState=()=>{
+export const authCheckState=()=>{//run when app.js is monted
     return dispatch=>{
         const token=localStorage.getItem('token');
         if(!token)

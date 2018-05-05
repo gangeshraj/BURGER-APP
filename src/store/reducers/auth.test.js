@@ -1,8 +1,13 @@
 import reducer from './auth';
 import * as actionTypes from '../actions/actionTypes';
 
+
+//test suite decribing
 describe('auth Reducer',()=>{
+
+    //test with description
     it('should return initial state',()=>{
+        //function with state,action as passed in reducer
         expect(reducer(undefined,{})).toEqual({
                 token: null,
                 userId: null,

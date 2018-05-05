@@ -100,7 +100,7 @@ class Auth extends Component {
 
 
     componentDidMount(){
-        console.log("reaching in did mount",this.props.buildingBurger,this.props.authRedirectPath!=='/')
+        //console.log("reaching in did mount",this.props.buildingBurger,this.props.authRedirectPath!=='/')
         if(!this.props.buildingBurger && this.props.authRedirectPath!=='/')
             this.props.onSetAuthRedirectPath();
     }
@@ -132,7 +132,7 @@ class Auth extends Component {
 
         let errorMessage = null;
         if (this.props.error) {
-            console.log("error in compo",this.props.error);
+            //console.log("error in compo",this.props.error);
             errorMessage = (
                 <p style={{color:"red"}}>
                     {this.props.error.message}
@@ -143,7 +143,7 @@ class Auth extends Component {
         let authRedirect=null;
         if(this.props.isAuthenticated)
         {
-            console.log("here i am",this.props.authRedirectPath);
+            //console.log("here i am",this.props.authRedirectPath);
             authRedirect=<Redirect to={this.props.authRedirectPath}/>
         }
 

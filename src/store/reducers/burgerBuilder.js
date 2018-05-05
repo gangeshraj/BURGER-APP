@@ -25,10 +25,9 @@ const initial_state={
 
 
 const reducer=(state=initial_state,action)=>{
-    //console.log("in reducer");
+
     switch(action.type){
             case actionTypes.ADD_INGREDIENTS:
-                //console.log("here receiving",action.ingredientName);
                 return {
                     ...state,
                     ingredients:{
@@ -38,8 +37,9 @@ const reducer=(state=initial_state,action)=>{
                         //special syntax
                         [action.ingredientName]:state.ingredients[action.ingredientName]+1
                     },
+                    //burger price is current price + ingredient pricewhich is added
                     total_price:state.total_price+INGREDIENT_PRICE[action.ingredientName],
-                    building:true
+                    building:true//building of burger started
                 };
             case actionTypes.REMOVE_INGREDIENTS:
                 // using object deep copying function
@@ -64,15 +64,18 @@ const reducer=(state=initial_state,action)=>{
                     };
             case actionTypes.SET_INGREDIENTS:
 
+                //object.keys iterates on object properties
                 let updated_price=Object.keys(action.ingredients)
-                .map(el=>{
+                .map(el=>{//returns array of prices by each ingredient type
                     return action.ingredients[el]*INGREDIENT_PRICE[el]
-                }).reduce((add,el)=>{
+                }).reduce((add,el)=>{//reducing 1st argument is function with twoarguments
+                    //1st is add variable returned at last 
+                    //el is each element of array returned by map above
                     return add+el
                 },0)
 
-                updated_price=updated_price+4;
-                //console.log("updated price",updated_price);
+                updated_price=updated_price+4;//add base price alwaysthere if burger not have ingredients
+
                 return {
                     ...state,
                     ingredients:action.ingredients,

@@ -22,7 +22,7 @@ const Input=(props)=>{
                 onChange={props.changed}/>;
                 break;
         case('select'):
-            console.log("here only",props.elementConfig.options.map(option=>{
+            //console.log("here only",props.elementConfig.options.map(option=>{
                 return <option 
                             key={option.value}
                             value={option.value}

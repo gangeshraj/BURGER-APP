@@ -1,8 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';//used to wrap where we are using routing
+import { Provider } from 'react-redux';//it injects central store REDUX in our react app
+//create store creates a cenral store redux to be used
+//apply middle wares help us to use middle wares between reducers and actions
+//compose isdefault variable if the redux dev tools is not
+//combine reducers combine all state in different reducers to be passed in central stte redux
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+//it is a middle ware library helping us run async middleware action usingaction creators
 import thunk from 'redux-thunk';
 
 import './index.css';
@@ -17,12 +22,16 @@ import authReducer from './store/reducers/auth';
 const composeEnhancers = process.env.NODE_ENV === 'development' ? // redux dev tool only when in development mode
         window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null|| compose;
 
+
+//combine all reducers into one and pass to central state
 const rootReducer = combineReducers({
     burgerBuilderReducing: burgerBuilderReducer,
     orderReducing: orderReducer,
     authReducing: authReducer
 });
 
+
+//central state reducers and appliedmidddlewares
 const store = createStore(rootReducer, composeEnhancers(
     applyMiddleware(thunk)
 ));
@@ -38,5 +47,6 @@ const app = (
     </Provider>
 );
 
+//render to dom
 ReactDOM.render( app, document.getElementById( 'root' ) );
 registerServiceWorker();

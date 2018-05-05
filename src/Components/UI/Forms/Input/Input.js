@@ -22,14 +22,14 @@ const Input=(props)=>{
                 onChange={props.changed}/>;
                 break;
         case('select'):
-            //console.log("here only",props.elementConfig.options.map(option=>{
-                return <option 
-                            key={option.value}
-                            value={option.value}
-                            onChange={props.changed}>
-                            {option.displayValue}
-                        </option>
-            }))
+            // console.log("here only",props.elementConfig.options.map(option=>{
+            //     return <option 
+            //                 key={option.value}
+            //                 value={option.value}
+            //                 onChange={props.changed}>
+            //                 {option.displayValue}
+            //             </option>
+            // }))
             inputElement=<select onChange={props.changed}
                 className={Classes.InputElement} 
                 value={props.value}>

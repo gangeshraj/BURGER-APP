@@ -17,7 +17,7 @@ export const authSuccess = (token, localId) => {
 };
 
 export const authFail = (error) => {
-    console.log("getting error",error);
+    // console.log("getting error",error);
     return {
         type: actionTypes.AUTH_FAIL,
         error: error
@@ -25,21 +25,21 @@ export const authFail = (error) => {
 };
 
 export const logout = () => {
-    console.log("in actions logout");
+    // console.log("in actions logout");
     return {
         type: actionTypes.AUTH_INITIATE_LOGOUT
     };
 };
 
 export const logoutSucceed = () => {
-    console.log("in actions logout succeed");
+    // console.log("in actions logout succeed");
     return {
         type: actionTypes.AUTH_LOGOUT
     };
 };
 
 export const checkAuthTimeout = (expirationTime) => {
-    console.log("in actions time out")
+    // console.log("in actions time out")
     return {
         type:actionTypes.AUTH_CHECK_TIMEOUT,
         expirationTime:15
@@ -47,40 +47,12 @@ export const checkAuthTimeout = (expirationTime) => {
 };
 
 export const auth = (email, password, isSignup) => {//action creators forsignin sign ip
-    return dispatch => {
-        dispatch(authStart());//invioke authorization started
-        const authData = {
-            email: email,
-            password: password,
-            returnSecureToken: true
-        };
-        //url for sign up
-        let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyDjU-5vRMStPrZL1jy6bhy49Z2nQv6ztoM';
-        if (!isSignup) {//url forsign in
-            url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyDjU-5vRMStPrZL1jy6bhy49Z2nQv6ztoM';
-        }
-        axios.post(url, authData)//sign up or sign in
-            .then(response => {
-                //date nd time 1 hour from response to logout
-                const expirationDate=new Date(new Date().getTime()+response.data.expiresIn*1000)
-                //set local storage of browser
-                localStorage.setItem("token",response.data.idToken);
-                localStorage.setItem("localId",response.data.localId);
-                localStorage.setItem("expirationDate",expirationDate);
-                console.log("here dispatching logout or authorization afterlogging in")
-                //executing auth success dispatcher
-                dispatch(authSuccess(response.data.idToken, response.data.localId));
-                //dispatch invoke logging out after the time receivedin firebasein nos like '3600' sec
-                dispatch(checkAuthTimeout(response.data.expiresIn));
-            })
-            .catch(err => {//error receiving response from firebase
-                dispatch(authFail(err.response.data.error));
-            })
-            .catch(err=>{//if not receivedfrom firebase app will crash
-                err.message="Some error occured check internet connection";
-                dispatch(authFail(err));
-            });
-    };
+    return {
+        type:actionTypes.AUTH_USER,
+        email:email,
+        password:password,
+        isSignup:isSignup
+    }
 };
 
 
@@ -97,12 +69,12 @@ export const authCheckState=()=>{//run when app.js is monted
         const token=localStorage.getItem('token');
         if(!token)
         {
-            console.log("applying");
+            // console.log("applying");
             dispatch(logout);
         }
         else{
             const expirationDate=new Date(localStorage.getItem('expirationDate'));
-            console.log(expirationDate,new Date(),expirationDate<=new Date());
+            // console.log(expirationDate,new Date(),expirationDate<=new Date());
             if(expirationDate<=new Date()){
                 alert("ok");
                 dispatch(logout())

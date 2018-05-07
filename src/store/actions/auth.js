@@ -25,20 +25,25 @@ export const authFail = (error) => {
 };
 
 export const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expirationDate');
-    localStorage.removeItem("localId");
+    console.log("in actions logout");
+    return {
+        type: actionTypes.AUTH_INITIATE_LOGOUT
+    };
+};
+
+export const logoutSucceed = () => {
+    console.log("in actions logout succeed");
     return {
         type: actionTypes.AUTH_LOGOUT
     };
 };
 
 export const checkAuthTimeout = (expirationTime) => {
-    return dispatch => {
-        setTimeout(() => {
-            dispatch(logout());
-        }, expirationTime * 1000);
-    };
+    console.log("in actions time out")
+    return {
+        type:actionTypes.AUTH_CHECK_TIMEOUT,
+        expirationTime:15
+    }
 };
 
 export const auth = (email, password, isSignup) => {//action creators forsignin sign ip
@@ -62,7 +67,7 @@ export const auth = (email, password, isSignup) => {//action creators forsignin 
                 localStorage.setItem("token",response.data.idToken);
                 localStorage.setItem("localId",response.data.localId);
                 localStorage.setItem("expirationDate",expirationDate);
-
+                console.log("here dispatching logout or authorization afterlogging in")
                 //executing auth success dispatcher
                 dispatch(authSuccess(response.data.idToken, response.data.localId));
                 //dispatch invoke logging out after the time receivedin firebasein nos like '3600' sec
@@ -92,6 +97,7 @@ export const authCheckState=()=>{//run when app.js is monted
         const token=localStorage.getItem('token');
         if(!token)
         {
+            console.log("applying");
             dispatch(logout);
         }
         else{

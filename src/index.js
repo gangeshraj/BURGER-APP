@@ -17,6 +17,9 @@ import burgerBuilderReducer from './store/reducers/burgerBuilder';
 import orderReducer from './store/reducers/order';
 import authReducer from './store/reducers/auth';
 
+import createSagaMiddleware from 'redux-saga';
+import {watchLogout} from './store/ReduxSaga';
+
 
 //process is globally present we are using environment variable to have
 const composeEnhancers = process.env.NODE_ENV === 'development' ? // redux dev tool only when in development mode
@@ -31,10 +34,14 @@ const rootReducer = combineReducers({
 });
 
 
+const sagaMiddleWare=createSagaMiddleware();
+
 //central state reducers and appliedmidddlewares
 const store = createStore(rootReducer, composeEnhancers(
-    applyMiddleware(thunk)
+    applyMiddleware(thunk,sagaMiddleWare)
 ));
+
+sagaMiddleWare.run(watchLogout);
 
 const app = (
     // injecting store in our app

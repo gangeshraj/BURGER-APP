@@ -22,6 +22,10 @@ class Orders extends Component{
                     ingredients={ord.ingredient}//pass ingredient
                     price={ord.price}/>//passprice
             ))
+            if(orders.length===0){
+                orders=<p style={{textAlign:"center",color:"red",textTransform:"uppercase"}}>
+                Orders can't be loaded check internet connectivity or you have not done any orders</p>;
+            }
         }
         return (
             <div>

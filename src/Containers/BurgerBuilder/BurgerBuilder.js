@@ -31,7 +31,7 @@ export class BurgerBuilder extends Component{
     }
 
     openModel=()=>{
-        console.log("setting");
+
         if(this.props.isAuthenticated){
             //it opens modal
             this.setState({purchasing:true});
@@ -131,7 +131,7 @@ export class BurgerBuilder extends Component{
         //  else
         //  show spinner
         let burger=this.props.error?<p style={{textAlign:"center",color:"red",textTransform:"uppercase"}}>
-        Ingredient's can't be loaded</p>:<Spinner/>;
+        Ingredient's can't be loaded check internet connectivity</p>:<Spinner/>;
 
         // now if ingredients !==null means ingredients fetched from server
         // initaialize burger to be rendered

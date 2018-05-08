@@ -18,7 +18,7 @@ import orderReducer from './store/reducers/order';
 import authReducer from './store/reducers/auth';
 
 import createSagaMiddleware from 'redux-saga';
-import {watchLogout} from './store/ReduxSaga';
+import {watchLogout, watchBurgerBuilder ,watchOrder} from './store/ReduxSaga';
 
 
 //process is globally present we are using environment variable to have
@@ -42,6 +42,8 @@ const store = createStore(rootReducer, composeEnhancers(
 ));
 
 sagaMiddleWare.run(watchLogout);
+sagaMiddleWare.run(watchBurgerBuilder);
+sagaMiddleWare.run(watchOrder);
 
 const app = (
     // injecting store in our app

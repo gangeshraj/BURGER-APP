@@ -42,7 +42,7 @@ export const checkAuthTimeout = (expirationTime) => {
     // console.log("in actions time out")
     return {
         type:actionTypes.AUTH_CHECK_TIMEOUT,
-        expirationTime:15
+        expirationTime:expirationTime
     }
 };
 

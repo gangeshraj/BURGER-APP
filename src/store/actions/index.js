@@ -1,14 +1,21 @@
 export {//export all the actions needed in coponents
     addIngredients,
     removeIngredients,
-    initIngredients
-
+    initIngredients,
+    fetchIngredientsFailed,
+    setIngredients
 } from './burgerBuilder';
 
 export {
    purchaseBurger,
    purchaseInit,
-   fetchOrders
+   fetchOrders,
+   purchaseBurgerStart,
+   purchaseBurgerSuccess,
+   purchaseBurgerFail,
+   fetchOrdersFail,
+   fetchOrdersSuccess,
+   fetchOrdersStart
 } from './order';
 
 

@@ -11,12 +11,7 @@ const INGREDIENT_PRICE={
 
 const initial_state={
     /* cut from BURGER BUILDER */
-    ingredients:{
-        salad:0,
-        bacon:0,
-        cheese:0,
-        meat:0
-    },
+    ingredients:null,
     total_price:4,//base price which is always 4 without any ingredients 
     //and it have theprice of the whole burger,
     error:false,

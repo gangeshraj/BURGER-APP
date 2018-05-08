@@ -42,8 +42,8 @@ class ContactData extends Component{
                 validation:{
                     valid:false,
                     minlength:10,
-                    pattern:/^[a-zA-Z0-9\s]+$/,
-                    invalidMessage:"Address should be only alphabets and number & min 10 characters"
+                    pattern:/^[a-zA-Z0-9\s,]+$/,
+                    invalidMessage:'Address should be only alphabets,number,  " , " for address separation & min 10 characters'
                 }
             },
             zipcode:{

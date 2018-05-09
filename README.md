@@ -6,18 +6,23 @@ This is a single page application usess react 16.3 (latest version of react curr
     https://burger-app-react-gangesh.firebaseapp.com/
 
 ## PREREQUISITES/HOW TO RUN THE APP
-    in your local system you must have node installed .All the dependencies and libraries are stored in package.json
-    you only need to be in the main direactory of the app. Open CMD and run npm install you will be able to install all the dependencies for this application.Now run npm start and you will have this running in your system
+    in your local system you must have node installed .All the dependencies and libraries are stored 
+    in package.json you only need to be in the main direactory of the app. Open CMD and run npm 
+    install you will be able to install all the dependencies for this application.Now run npm start 
+    and you will have this running in your system
 
 ## to run the AUTOMATED TESTS
     be in the root directory and type in cmd "npm run test"
 ## if logged in
     After creating burger you can continue to order page for filling your contact details with 
-    some validations.This order is submitted when all the input validations are correct and you send your order to backend firebase.
-        You can also see the orders you sent from orders page.
+    some validations.This order is submitted when all the input validations are correct and you 
+    send your order to backend firebase.
+    You can also see the orders you sent from orders page.
 ## if logged out 
-    After creating burger you will be asked to sign up or sign in as than only you can purchase the burger.
-    Thers is swiitch button to sign in or sign up for the app.Once you sign in you can see the burger you created and start filling the contact form to send your burger and contact details to our server
+    After creating burger you will be asked to sign up or sign in as than only you can 
+    purchase the burger.Thers is swiitch button to sign in or sign up for the app.Once 
+    you sign in you can see the burger you created and start filling the contact form 
+    to send your burger and contact details to our server
 
 ## Languages :->
     JAVASCRIPT NEXT GENERATION,HTML,CSS,

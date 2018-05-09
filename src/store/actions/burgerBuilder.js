@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes';
-import axios_instance_for_orders from '../../axios_instance_for_orders';//use instance of 
-import { purchaseBurgerStart } from './order';
+//import axios_instance_for_orders from '../../axios_instance_for_orders';//use instance of 
+//import { purchaseBurgerStart } from './order';
 //axios for sending http request to our fire base server
 
 export const addIngredients=(ingname)=>{

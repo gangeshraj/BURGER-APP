@@ -2,10 +2,9 @@ import {delay} from 'redux-saga'
 import {put,call} from 'redux-saga/effects';
 import axios from 'axios';
 import * as actions from '../actions/index';
-import { checkAuthTimeout } from '../actions/auth';
+// import { checkAuthTimeout } from '../actions/auth';
 
 export function* logoutSaga(action){
-    // console.log("inn saga logout")
     //yield localStorage.removeItem('token');
     yield call([localStorage,'removeItem'],"token");//advantage of the syntax is we can mock it and test it
     //not always run as we do in below syntaxes
@@ -17,6 +16,7 @@ export function* logoutSaga(action){
 
 export function* checkAuthTimeoutSaga(action){
     // console.log("in saga timeout");
+    //forces delay
     yield delay(action.expirationTime*1000);
     // console.log("reaching late");
     yield put( actions.logout() )

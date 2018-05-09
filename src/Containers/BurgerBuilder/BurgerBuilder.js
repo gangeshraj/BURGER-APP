@@ -205,5 +205,4 @@ const matchDispatchToProps=dispatch=>{
 // wrapped in high order component so as to show error using modal component
 // this is very optimal way now we can use any component which uses axios to 
 // have high order component WithErrorHandler wrappping it
-export default withRouter(connect(matchStateToProps,matchDispatchToProps)
-            (WithErrorHandler(BurgerBuilder,axios_instance_for_orders)));
+export default withRouter(connect(matchStateToProps,matchDispatchToProps)(WithErrorHandler(BurgerBuilder,axios_instance_for_orders)));

@@ -20,8 +20,8 @@ import {fetchOrdersSaga,purchaseBurgerSaga} from './order.js'
 
 export function* watchLogout(){
 
-    // console.log("in saga listener");
-    yield all([takeEvery(actionTypes.AUTH_CHECK_TIMEOUT,checkAuthTimeoutSaga),
+    //stops for all and actions are concurrent
+    yield all( [takeEvery(actionTypes.AUTH_CHECK_TIMEOUT,checkAuthTimeoutSaga),
                 takeEvery(actionTypes.AUTH_INITIATE_LOGOUT,logoutSaga),
                 takeEvery(actionTypes.AUTH_USER,authSaga),
                 yield takeEvery(actionTypes.AUTH_CHECK_LOGIN_STATE,authCheckStateSaga)

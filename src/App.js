@@ -4,7 +4,8 @@ import BurgerBuilder from './Containers/BurgerBuilder/BurgerBuilder'
 // import Checkout from './Containers/Checkout/Checkout';
 //route routes to various domain andaccoringly renders component
 //switch only allows to render one route
-//withRouter is important for to get routingprops
+//withRouter is important for to get routingprops like history etc;-
+//withRouter also debars the routing capability of component barred due to connect
 //redirect allows to redirect to some url according to out logic
 import {Route,Switch,withRouter,Redirect} from 'react-router-dom';
 // import Orders from './Containers/Orders/Orders';
@@ -38,7 +39,7 @@ const asyncAuth=asyncComponent(()=>{
 
 class App extends Component {
 
-  componentDidMount(){//hen component is again mounted check user is loggedin
+  componentDidMount(){//here component is again mounted check user is loggedin
     //itis done by checking browser local storage 
     this.props.onTryAutoSignUp();
   }
